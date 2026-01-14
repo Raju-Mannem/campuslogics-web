@@ -1,7 +1,6 @@
 import parse, { DOMNode, Element, domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import Link from 'next/link';
 import Image from 'next/image';
-import DOMPurify from 'isomorphic-dompurify';
 import { useMemo } from 'react';
 
 type Props = {
@@ -9,10 +8,7 @@ type Props = {
 };
 
 export default function SafeHtml({ html }: Props) {
-  const cleanHtml = useMemo(
-    () => DOMPurify.sanitize(html),
-    [html]
-  );
+  const cleanHtml = useMemo(() => html, [html]);
 
   const options: HTMLReactParserOptions = {
     replace: (node) => {
