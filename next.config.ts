@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  transpilePackages: ['html-encoding-sniffer', '@exodus/bytes'],
+  serverExternalPackages: ['jsdom', 'dompurify'],
   images: {
     remotePatterns: [
       {
@@ -19,9 +21,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  env: {
-    CUSTOM_KEY: 'your-value',
   },
   async headers() {
     return [
