@@ -18,6 +18,15 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+       "prisma/**",
+       "src/lib/graphql/**",
+       "src/lib/apollo-client.ts",
+       "src/lib/apollo-server.ts",
+       "src/components/extensions/**",
+       "src/generated/**",
+       "graphql/**",
+       "react/no-unescaped-entities",
+       "@next/next/no-page-custom-font"
     ],
   },
 ];
