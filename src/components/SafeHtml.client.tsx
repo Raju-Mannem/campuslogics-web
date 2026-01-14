@@ -1,6 +1,6 @@
 'use client';
 
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import parse, { DOMNode, Element } from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';

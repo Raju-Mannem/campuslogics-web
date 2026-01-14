@@ -1,7 +1,7 @@
 import parse, { DOMNode, Element, domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import Link from 'next/link';
 import Image from 'next/image';
-import { DOMPurify } from '@/lib/dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { useMemo } from 'react';
 
 type Props = {

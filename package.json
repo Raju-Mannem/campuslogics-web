@@ -23,14 +23,12 @@
     "@tiptap/react": "^3.15.3",
     "@tiptap/starter-kit": "^3.15.3",
     "@tiptap/suggestion": "^3.15.3",
-    "@types/jsdom": "^27.0.0",
     "bcryptjs": "^3.0.3",
-    "dompurify": "^3.3.1",
     "firebase-admin": "^13.6.0",
     "graphql": "^16.11.0",
     "html-react-parser": "^5.2.11",
     "imagekit": "^6.0.0",
-    "jsdom": "^27.4.0",
+    "isomorphic-dompurify": "^2.35.0",
     "lucide-react": "^0.562.0",
     "nanoid": "^5.1.6",
     "next": "^16.1.1",
@@ -57,6 +55,6 @@
     "typescript": "^5"
   },
   "overrides": {
-  "@exodus/bytes": "1.0.0" 
-}
+    "@exodus/bytes": "1.0.0"
+  }
 }
