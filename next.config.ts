@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  transpilePackages: ['jsdom', 'dompurify', 'html-encoding-sniffer', '@exodus/bytes'],
+  serverExternalPackages: ['jsdom', 'dompurify', 'html-encoding-sniffer', '@exodus/bytes'],
   transpilePackages: ['@exodus/bytes'],
   images: {
     remotePatterns: [
