@@ -1,25 +1,38 @@
 import { gql } from "@apollo/client";
 
 export const GET_POSTS = gql`
-query GetPosts($isPublished: Boolean) {
-    getPosts(isPublished: true) {
-      sno
-      title
-      imageLink
-      description
-      date
+query GetPosts($published: Boolean!, $page: Int!, $limit: Int!) {
+    posts(published: $published, page: $page, limit: $limit) {
+      posts { 
+        id 
+        title 
+        slug 
+        imageLink 
+        description 
+        tags 
+        postedBy 
+        createdAt 
+      }
+      totalCount      
     }
   }
 `;
 
 export const GET_ADMIN_POSTS = gql`
-query GetAdminPosts() {
-    getPosts() {
-      sno
-      title
-      imageLink
-      description
-      date
+query GetAdminPosts($page: Int!, $limit: Int!) {
+    posts(page: $page, limit: $limit) {
+      posts { 
+        id 
+        title 
+        slug 
+        imageLink 
+        description 
+        tags 
+        postedBy 
+        createdAt 
+        published
+      }
+      totalCount  
     }
   }
 `;

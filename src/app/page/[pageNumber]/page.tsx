@@ -71,6 +71,7 @@ export default async function PaginatedHomePage({
 
           <div className="col-span-1 lg:col-span-3">
             <PostList posts={posts} />
+            
             {totalPages > 1 && (
               <div className="mt-12">
                 <PaginationControls 

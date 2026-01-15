@@ -1,41 +1,40 @@
 "use client"
-import { gql } from '@apollo/client';
+import { Post } from '@prisma/client';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { useLoader } from '@/context/LoaderContext';
-import { Post } from '@prisma/client';
+import PaginationControls from '@/components/PaginationControls';
+import { GET_ADMIN_POSTS } from '@/lib/graphql/queries';
+import { DELETE_POST } from '@/lib/graphql/mutations';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
 
 interface GetPostsData {
-  posts: Post[];
+  posts: {
+    posts: Post[];
+    totalCount: number;
+  };
 }
 
-const GET_ADMIN_POSTS = gql`
-  query GetAdminPosts {
-    posts(published: null) {
-      id
-      title
-      slug
-      imageLink
-      description
-      tags
-      postedBy
-      published
-      createdAt
-    }
-  }
-`
-
-const DELETE_POST = gql`
-  mutation DeletePost($id: Int!) {
-    deletePost(id: $id)
-  }
-`
-
 export default function Admin() {
-  const { data, refetch } = useQuery<GetPostsData>(GET_ADMIN_POSTS)
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const limit = 10;
+
+  const { data, refetch } = useQuery<GetPostsData>(GET_ADMIN_POSTS, {
+    variables: { 
+      page: currentPage, 
+      limit: limit 
+    },
+    fetchPolicy: 'network-only'
+  })
   const [deletePost] = useMutation(DELETE_POST)
   const { showLoader, hideLoader } = useLoader();
+
+  const posts = data?.posts.posts || [];
+  const totalCount = data?.posts.totalCount || 0;
+  const totalPages = Math.ceil(totalCount / limit);
 
   const handleDelete = async (postId: number) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
@@ -66,7 +65,7 @@ export default function Admin() {
 
       <div className="bg-white shadow-sm border border-gray-100 sm:rounded-2xl overflow-hidden">
         <ul className="divide-y divide-gray-100">
-          {data?.posts.map((post: Post) => (
+          {posts.map((post: Post) => (
             <li key={post.id} className="hover:bg-gray-50 transition-colors">
               <div className="px-6 py-6 flex items-center justify-between">
                 <div className="flex items-center">
@@ -118,6 +117,14 @@ export default function Admin() {
             </li>
           ))}
         </ul>
+        {totalPages > 1 && (
+          <div className="px-6 py-6 border-t border-gray-100">
+            <PaginationControls 
+              totalPages={totalPages} 
+              currentPage={currentPage} 
+            />
+          </div>
+        )}
       </div>
     </div>
   )

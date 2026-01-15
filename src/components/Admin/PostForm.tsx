@@ -239,6 +239,8 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
             <Image
               src={formData.imageLink}
               alt="Current"
+              width={100}
+              height={100}
               className="w-full h-48 object-cover rounded-md mb-4 border border-gray-200"
             />
           )}

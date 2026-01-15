@@ -24,16 +24,42 @@ interface UpdatePostInput {
 
 const resolvers = {
   Query: {
-    posts: async (_: any, { limit, isPublished, offset = 0}: any) => {
+    posts: async (_: any, args: any) => {
       // await new Promise(resolve => setTimeout(resolve, 5000))
-      return await prisma.post.findMany({
-        ...(isPublished && { where: { published: isPublished } }),
-        take: limit,
-        skip: offset,
-        orderBy: { createdAt: 'desc' }
-      })
-    },
+      const { published, page = 1, limit = 10 } = args;
+      const skip = (page - 1) * limit;
 
+      const where = {
+        ...(published !== undefined && { published }),
+      };
+
+      const [posts, totalCount] = await Promise.all([
+        prisma.post.findMany({
+          where,
+          skip: skip,
+          take: limit,
+          orderBy: {
+            createdAt: 'desc',
+          },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            description: true,
+            imageLink: true,
+            tags: true,
+            postedBy: true,
+            published: true,
+            createdAt: true,
+          },
+        }),
+        prisma.post.count({ where }),
+      ]);
+      return {
+        posts,
+        totalCount,
+      };
+    },
     post: async (_: any, { id, slug }: any) => {
       if (id) {
         const res = prisma.post.findUnique({ where: { id } });

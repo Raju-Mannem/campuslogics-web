@@ -23,6 +23,11 @@ type Image {
   uploadedAt: String!
 }
 
+type PaginatedPosts {
+  posts: [Post!]!
+  totalCount: Int!
+}
+
 input CreatePostInput {
   title: String!
   description: String!
@@ -46,7 +51,7 @@ input UpdatePostInput {
 }
 
 type Query {
-  posts(limit: Int, offset: Int, published: Boolean): [Post!]!
+  posts(published: Boolean, page: Int, limit: Int): PaginatedPosts!
   post(id: Int, slug: String): Post
   images: [Image!]!
   image(id: Int!): Image

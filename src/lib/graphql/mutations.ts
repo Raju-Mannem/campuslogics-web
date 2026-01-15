@@ -28,8 +28,8 @@ mutation UpdatePost($sno: Int!, $data: PostUpdateInput!) {
 `;
 
 export const DELETE_POST = gql`
-mutation DeletePost($sno: Int!) {
-  deletePost(sno: $sno) {
+mutation DeletePost($id: Int!) {
+  deletePost(id: $id) {
     sno
     title
     imageLink
@@ -41,7 +41,11 @@ mutation DeletePost($sno: Int!) {
 `;
 
 export const UPLOAD_IMAGE = gql`
-mutation UploadImage(fileName: String!, fileType: String!) {
-
+mutation UploadImage($fileName: String!, $fileType: String!) {
+  uploadImage(fileName: $fileName, fileType: $fileType) {
+    fileName
+    fileType
+    fileUrl
+  }
 }
 `
