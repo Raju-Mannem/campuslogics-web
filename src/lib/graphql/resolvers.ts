@@ -43,6 +43,126 @@ const resolvers = {
           },
           select: {
             id: true,
+            postType: true,
+            title: true,
+            slug: true,
+            description: true,
+            imageLink: true,
+            tags: true,
+            postedBy: true,
+            published: true,
+            createdAt: true,
+          },
+        }),
+        prisma.post.count({ where }),
+      ]);
+      return {
+        posts,
+        totalCount,
+      };
+    },
+    searchPosts: async (_: any, args: any) => {
+      const { published, page = 1, limit = 10, searchQuery } = args;
+      const skip = (page - 1) * limit;
+      const where = {
+        ...(published !== undefined && { published }),
+        ...(searchQuery && {
+          OR: [
+            { title: { contains: searchQuery, mode: 'insensitive' } },
+            // { description: { contains: searchQuery, mode: 'insensitive' } },
+            // { tags: { has: searchQuery } }
+          ],
+        }),
+      };
+
+      const [posts, totalCount] = await Promise.all([
+        prisma.post.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: {
+            createdAt: 'desc',
+          },
+          select: {
+            id: true,
+            postType: true,
+            title: true,
+            slug: true,
+            description: true,
+            imageLink: true,
+            tags: true,
+            postedBy: true,
+            published: true,
+            createdAt: true,
+          },
+        }),
+        prisma.post.count({ where }),
+      ]);
+      return {
+        posts,
+        totalCount,
+      };
+    },
+    categoryPosts: async (_: any, args: any) => {
+      const { published, page = 1, limit = 10, postType } = args;
+      const skip = (page - 1) * limit;
+      const where = {
+        ...(published !== undefined && { published }),
+        ...(postType && { postType }),
+      };
+
+      const [posts, totalCount] = await Promise.all([
+        prisma.post.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: {
+            createdAt: 'desc',
+          },
+          select: {
+            id: true,
+            postType: true,
+            title: true,
+            slug: true,
+            description: true,
+            imageLink: true,
+            tags: true,
+            postedBy: true,
+            published: true,
+            createdAt: true,
+          },
+        }),
+        prisma.post.count({ where }),
+      ]);
+      return {
+        posts,
+        totalCount,
+      };
+    },
+    categoryTypePosts: async (_: any, args: any) => {
+      const { published, page = 1, limit = 10, categoryType } = args;
+      const skip = (page - 1) * limit;
+      console.log("categoryType", categoryType);
+      const where = {
+        ...(published !== undefined && { published }),
+        ...(categoryType && {
+          OR: [
+            { tags: { has: categoryType } }
+          ],
+        }),
+      };
+
+      const [posts, totalCount] = await Promise.all([
+        prisma.post.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: {
+            createdAt: 'desc',
+          },
+          select: {
+            id: true,
+            postType: true,
             title: true,
             slug: true,
             description: true,
@@ -73,8 +193,25 @@ const resolvers = {
 
     images: async () => {
       return await prisma.image.findMany({
-        orderBy: { uploadedAt: 'desc' }
+        orderBy: { 
+          uploadedAt: 'desc'
+        },
+        take: 10,
+        skip: 0,
       })
+    },
+    imageSearch: async (_: any, args: { name?: string }) => {
+      if (args.name) {
+      return await prisma.image.findMany({
+        where: {
+          name: {
+            contains: args.name,
+            mode: 'insensitive'
+          },
+        },
+      });
+    }
+    return prisma.image.findMany();
     },
 
     image: async (_: any, { id }: any) => {
@@ -123,7 +260,7 @@ const resolvers = {
         throw new Error("You must be logged in to upload an image.");
       }
       const imageKitService = new ImageKitService()
-      const uploadResult = await imageKitService.uploadImage(file, name)
+      const uploadResult = await imageKitService.uploadImage(file, name, "public/logo.png")
 
       return await prisma.image.create({
         data: {
