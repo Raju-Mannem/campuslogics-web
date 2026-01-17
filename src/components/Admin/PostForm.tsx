@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import { Post, Image as PrismaImage } from '@prisma/client';
 import ImageUpload from '../Image/ImageUpload';
@@ -9,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Tiptap from '../Editor';
 import Image from 'next/image';
 import { Prisma } from '@prisma/client';
+import { CREATE_POST, UPDATE_POST } from '@/lib/graphql/mutations';
 
 interface CreatePostResponse {
   createPost: Post;
@@ -19,6 +19,7 @@ interface UpdatePostResponse {
 }
 
 interface PostFormData {
+  postType: string;
   title: string;
   description: string;
   content: Prisma.InputJsonValue;
@@ -29,38 +30,6 @@ interface PostFormData {
   published: boolean;
 }
 
-const CREATE_POST = gql`
-  mutation CreatePost($input: CreatePostInput!) {
-    createPost(input: $input) {
-      id
-      title
-      slug
-      imageLink
-      description
-      content
-      tags
-      postedBy
-    }
-  }
-`
-
-const UPDATE_POST = gql`
-  mutation UpdatePost($id: Int!, $input: UpdatePostInput!) {
-    updatePost(id: $id, input: $input) {
-      id
-      title
-      slug
-      imageLink
-      description
-      content
-      tags
-      links
-      postedBy
-      published
-    }
-  }
-`
-
 interface PostFormProps {
   post?: Post
   onSuccess?: (post: Post) => void
@@ -69,6 +38,7 @@ interface PostFormProps {
 export default function PostForm({ post, onSuccess }: PostFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState<PostFormData>({
+    postType: post?.postType || '',
     title: post?.title || '',
     description: post?.description || '',
     content: post?.content || '',
@@ -87,6 +57,7 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
   useEffect(() => {
     if (post) {
       setFormData({
+        postType: post.postType || '',
         title: post.title || '',
         description: post.description || '',
         content: post.content || '',
@@ -172,6 +143,17 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="col-span-full">
+          <label className="block text-sm font-medium text-gray-700">Post Type</label>
+          <input
+            type="text"
+            value={formData.postType}
+            onChange={(e) => setFormData(prev => ({ ...prev, postType: e.target.value }))}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        <div className="col-span-full">
           <label className="block text-sm font-medium text-gray-700">Title</label>
           <input
             type="text"
@@ -206,7 +188,7 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
           <input
             type="text"
             value={formData.tags}
-            onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
+            onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value.toLocaleLowerCase() }))}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
@@ -241,7 +223,7 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
               alt="Current"
               width={100}
               height={100}
-              className="w-full h-48 object-cover rounded-md mb-4 border border-gray-200"
+              className="h-48 w-96 object-contain rounded-md mb-4 border border-gray-200"
             />
           )}
 

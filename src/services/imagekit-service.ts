@@ -1,13 +1,32 @@
 import { imagekit } from "@/lib/imagekit";
+import sharp from "sharp";
+import fs from "fs";
+import path from "path";
 
 export class ImageKitService {
-    async uploadImage(file: File, fileName: string): Promise<{ url: string; publicId: string }> {
+    async uploadImage(file: File, fileName: string, logoPath: string): Promise<{ url: string; publicId: string }> {
         try {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
+            const baseImage = sharp(buffer);
+            const metadata = await baseImage.metadata();
+
+            const logoBuffer = await sharp(logoPath)
+            .resize(Math.floor((metadata.width ?? 500) * 0.15))
+            .toBuffer();
+
+            const processedBuffer = await sharp(buffer)
+                .composite([
+                    {
+                        input: logoBuffer,
+                        top: 10,
+                        left: 10,
+                    },
+                ])
+                .toBuffer();
 
             const response = await imagekit.upload({
-                file: buffer,
+                file: processedBuffer,
                 fileName: fileName,
             });
 

@@ -2,13 +2,20 @@ import { useState, useRef } from 'react';
 import { Image as PImage } from '@prisma/client';
 import Image from 'next/image';
 import { useLoader } from '@/context/LoaderContext';
+import { SEARCH_IMAGES } from '@/lib/graphql/queries';
+import { useLazyQuery } from '@apollo/client/react';
 
 interface ImageUploadProps {
   onImageSelect: (image: PImage) => void
   selectedImage?: PImage
 }
+interface SearchImages {
+  imageSearch: PImage[]
+}
 
 export default function ImageUpload({ onImageSelect, selectedImage }: ImageUploadProps) {
+  const [searchImages, { data , loading }] = useLazyQuery<SearchImages>(SEARCH_IMAGES);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [images, setImages] = useState<PImage[]>([])
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -133,9 +140,20 @@ export default function ImageUpload({ onImageSelect, selectedImage }: ImageUploa
     }
   }
 
+  const handleSearch = (term: string) => {
+    showLoader();
+    searchImages(
+      { 
+        variables: { name: term } 
+      }
+    ); 
+    if (data?.imageSearch) { setImages(data.imageSearch); }
+    hideLoader();
+  };
+
   return (
     <div className="space-y-4">
-      <div>
+      <div className="flex items-center gap-2">
         <input
           ref={fileInputRef}
           type="file"
@@ -168,11 +186,22 @@ export default function ImageUpload({ onImageSelect, selectedImage }: ImageUploa
         >
           Load Uploaded Images
         </button>
+
+        <input type="text" 
+            placeholder="Search" 
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="ml-2 px-3 py-2 border rounded focus:outline-none"
+        />
+        <input type="button" 
+          value="Search" 
+          className="ml-2 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700" 
+          onClick={() => handleSearch(searchTerm)}
+          />
       </div>
 
-      {images.length > 0 && (
+      {images?.length > 0 && (
         <div className="grid grid-cols-3 gap-4">
-          {images.map((image) => (
+          {images?.map((image) => (
             <div
               key={image.id}
               className={`group relative border-2 rounded-lg cursor-pointer overflow-hidden ${selectedImage?.id === image.id ? 'border-brand-500 ring-2 ring-brand-200' : 'border-gray-200 hover:border-gray-400'

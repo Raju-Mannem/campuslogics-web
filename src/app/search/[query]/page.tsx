@@ -1,4 +1,4 @@
-import { GET_POSTS } from '@/lib/graphql/queries';
+import { GET_SEARCH_POSTS } from '@/lib/graphql/queries';
 import { apolloClient } from '@/lib/apollo-client';
 import PostList from '@/components/Post/PostList';
 import PaginationControls from '@/components/PaginationControls';
@@ -8,40 +8,47 @@ import Hero from '@/components/Hero';
 export const revalidate = 60;
 
 interface GetPostData {
-  posts: {
+  searchPosts: {
     posts: Post[];
     totalCount: number;
   };
 }
+interface SearchPageProps {
+  params: Promise<{ query: string }>;
+  searchParams: Promise<{ page?: string }>;
+}
 
-export default async function PaginatedHomePage({
-  params,
-}: {
-  params: Promise<{ pageNumber?: string }>;
-}) {
-  const resolvedParams = await params;
-  const currentPage = Number(resolvedParams.pageNumber) || 1;
-  const limit = 10;
-
+export default async function SearchResultsPage({
+    params,
+    searchParams,
+}: SearchPageProps) {
+    const { query } = await params;
+    const decodedQuery = decodeURIComponent(query);
+    const { page } = await searchParams;
+    const currentPage = Number(page) || 1;
+    const limit = 10;
+    
   let posts: Post[] = [];
   let totalCount = 0;
 
   try {
     const { data } = await apolloClient.query<GetPostData>({
-      query: GET_POSTS,
-      variables: {
+      query: GET_SEARCH_POSTS,
+      variables: { 
         published: true,
         page: currentPage,
-        limit: limit
+        limit: limit,
+        searchQuery: decodedQuery
       },
     });
-    posts = data?.posts.posts || [];
-    totalCount = data?.posts.totalCount || 0;
+    posts = data?.searchPosts.posts || [];
+    totalCount = data?.searchPosts.totalCount || 0;
   } catch (error) {
     console.error("Failed to fetch posts:", error);
   }
 
   const totalPages = Math.ceil(totalCount / limit);
+  const categories = ["Government Jobs", "Remote Jobs", "BTECH Jobs", "Degree Jobs", "MTECH Jobs", "MCA Jobs", "MBA Jobs", "MSC Jobs", "10th Jobs", "ITI Jobs", "12th Jobs", "Diploma Jobs"];
 
   return (
     <section className="min-h-screen">
@@ -59,11 +66,10 @@ export default async function PaginatedHomePage({
 
           <div className="col-span-1 lg:col-span-3">
             <PostList posts={posts} />
-
             {totalPages > 1 && (
               <div className="mt-12">
-                <PaginationControls
-                  totalPages={totalPages}
+                <PaginationControls 
+                  totalPages={totalPages} 
                   currentPage={currentPage}
                   pathJoin='/'
                 />
