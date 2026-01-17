@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
-export default function PaginationControls({ totalPages, currentPage }: { totalPages: number, currentPage: number }) {
+export default function PaginationControls({ totalPages, currentPage, pathJoin }: { totalPages: number, currentPage: number, pathJoin: string }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const createPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('page', pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
+    const segments = pathname.split('/');
+    segments[segments.length - 1] = pageNumber.toString();
+
+    return segments.join(pathJoin);
   };
 
   return (

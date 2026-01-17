@@ -99,22 +99,28 @@ export default function Admin() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                   <Link
-                    href={`/admin/posts/${post.id}/edit`}
+                    href={`/admin/posts/${post.slug}`}
+                    className="px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:text-brand-600 transition"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    href={`/admin/posts/${post.slug}/edit`}
                     className="px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:text-brand-600 transition"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(post.id)}
-                    className="ml-2 px-4 py-2 bg-white border border-gray-200 text-red-600 text-sm font-medium rounded-lg hover:bg-red-50 hover:border-red-200 transition"
+                    className="px-4 py-2 bg-white border border-gray-200 text-red-600 text-sm font-medium rounded-lg hover:bg-red-50 hover:border-red-200 transition"
                   >
                     Delete
                   </button>
                 </div>
               </div>
-            </li>
+              </li>
           ))}
         </ul>
         {totalPages > 1 && (
@@ -122,6 +128,7 @@ export default function Admin() {
             <PaginationControls 
               totalPages={totalPages} 
               currentPage={currentPage} 
+              pathJoin='admin/'
             />
           </div>
         )}
