@@ -17,11 +17,12 @@ datasource db {
 model Post {
   id          Int       @id @default(autoincrement())
   sno         Int       @default(autoincrement())
+  postType    String    @default("job")
   title       String
   slug        String    @unique
   imageLink   String
   description String    @db.Text
-  content     Json    @db.Json
+  content     Json      @db.Json
   links       Json
   tags        String[]
   postedBy    String
