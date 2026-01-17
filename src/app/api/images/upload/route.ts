@@ -3,12 +3,6 @@ import { ImageKitService } from "@/services/imagekit-service";
 
 export const runtime = 'nodejs';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export const POST = async (req: Request) => {
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ message: "Method not allowed" }), {
@@ -19,9 +13,6 @@ export const POST = async (req: Request) => {
 
   try {
     const imageKitService = new ImageKitService();
-
-    // For file uploads, you would use a library like multer or next-connect
-    // This is a simplified version
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const name = formData.get("name") as string;
@@ -33,7 +24,7 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const uploadResult = await imageKitService.uploadImage(file, name);
+    const uploadResult = await imageKitService.uploadImage(file, name, "public/logo.png");
 
     const image = await prisma.image.create({
       data: {
