@@ -39,6 +39,11 @@ export default function RootLayout({
         <ApolloWrapper>
           <LoaderProvider>
             <Header />
+            <div className="fixed inset-0 -z-10 h-full w-full bg-[#fafafa]" />
+            <div 
+              className="fixed inset-0 -z-10 h-full w-full opacity-50 pointer-events-none" 
+              style={{ backgroundImage: "url('/grain.png')", backgroundRepeat: 'repeat' }}
+            />
             <main className="flex-grow pt-16">
               {children}
             </main>

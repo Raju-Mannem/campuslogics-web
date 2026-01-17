@@ -30,6 +30,10 @@
 @theme {
   --font-display: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --color-navyblue-200: #CBE3EF;
+  --color-navyblue-300: #82C2E6;
+  --color-navyblue-400: #5585BO;
+  --color-navyblue-500: #254E7A;
   --color-background-50: #fafafa;
   --color-brand-50: #FDECEC;
   --color-brand-100: #F9D6D5;
@@ -86,4 +90,21 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+@layer base {
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input::-ms-clear,
+  input::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
 }
