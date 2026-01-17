@@ -7,7 +7,6 @@ export default async function Header() {
         { href: "/internships", label: "Internships" },
         { href: "/scholarships", label: "Scholarships" },
         { href: "/tests", label: "Tests" },
-        // { href: "/courses", label: "Courses" },
         { href: "/admissions", label: "Admissions" },
     ];
 

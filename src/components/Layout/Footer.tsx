@@ -18,9 +18,15 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="col-span-1 md:col-span-2">
-                        <div className='flex flex-col gap-4'>
-                            <Image src="/logo.png" alt="Logo" width={100} height={100} className='object-contain' />
-                            <p className="text-gray-500 max-w-sm text-sm sm:text-base">
+                        <div className='flex flex-col'>
+                            <Image src="/logo.png"
+                                alt="Logo"
+                                width={100}
+                                height={100}
+                                className='h-32 w-32 object-contain'
+                                priority
+                            />
+                            <p className="text-gray-500 max-w-sm text-base sm:text-sm">
                                 <strong>Collaborations</strong>
                                 <br />
                                 <a href="mailto:campuslogics.in@gmail.com" className="text-brand-600 hover:text-brand-700 transition">
@@ -56,12 +62,12 @@ export default function Footer() {
                             <span className='cursor-pointer hover:bg-gray-100 p-2 rounded-full transition'>
                                 <Link href="https://www.whatsapp.com/channel/0029VaArlbZJ3juzEnjiMH2J" target="_blank">
                                     <svg
-                                        className='w-6 h-6 text-green-500 fill-current'
+                                        className="w-6 h-6 text-green-500 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 32 32"
                                         aria-hidden="true"
                                     >
-                                        <path d="M16.003 3C9.374 3 4 8.373 4 15c0 2.64.77 5.09 2.09 7.16L4 29l7.07-2.06A11.94 11.94 0 0 0 16.003 27C22.63 27 28 21.627 28 15S22.63 3 16.003 3zm0 21.8c-2.17 0-4.21-.63-5.96-1.82l-.43-.28-4.19 1.22 1.23-4.08-.28-.43A9.77 9.77 0 0 1 6.2 15c0-5.39 4.41-9.8 9.803-9.8 5.39 0 9.8 4.41 9.8 9.8 0 5.39-4.41 9.8-9.8 9.8zm5.39-7.34c-.29-.15-1.71-.84-1.97-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.91 1.13-.17.19-.34.21-.63.06-.29-.15-1.23-.45-2.34-1.43-.86-.77-1.43-1.72-1.6-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.15-.17.19-.29.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.51.07-.77.36-.26.29-1 1-1 2.43 0 1.43 1.03 2.81 1.17 3 .15.19 2.03 3.1 4.92 4.35.69.3 1.23.48 1.65.61.69.22 1.31.19 1.8.11.55-.08 1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z" />
+                                        <path d="M16.003 3C9.374 3 4 8.373 4 15c0 2.64.77 5.09 2.09 7.16L4 29l7.07-2.06A11.94 11.94 0 0 0 16.003 27C22.63 27 28 21.627 28 15S22.63 3 16.003 3zm0 21.8c-2.17 0-4.21-.63-5.96-1.82l-.43-.28-4.19 1.22 1.23-4.08-.28-.43A9.77 9.77 0 0 1 6.2 15c0-5.39 4.41-9.8 9.803-9.8 5.39 0 9.8 4.41 9.8 9.8 0 5.39-4.41 9.8-9.8 9.8zm5.39-7.34c-.29-.15-1.71-.84-1.97-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.91 1.13-.17.19-.34.21-.63.06-.29-.15-1.23-.45-2.34-1.43-.86-.77-1.43-1.72-1.6-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.15-.17.19-.29.3-.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.51.07-.77.36-.26.29-1 1-1 2.43 0 1.43 1.03 2.81 1.17 3 .15.19 2.03 3.1 4.92 4.35.69.3 1.23.48 1.65.61.69.22 1.31.19 1.8.11.55-.08 1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z" />
                                     </svg>
                                 </Link>
                             </span>

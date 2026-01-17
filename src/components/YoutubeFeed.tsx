@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface YouTubeVideo {
   id: {
@@ -54,12 +55,12 @@ export default async function YouTubeFeed() {
   const videos = await getLatestVideos();
 
   return (
-    <div className="min-h-screen border-x border-gray-200 shadow-lg px-4 py-12">
+    <div className="min-h-screen border-x border-gray-200 shadow-lg px-4 py-8">
       <h3 className="text-xl font-bold mb-4">Latest from YouTube</h3>
       <div className="flex flex-col justify-center items-center gap-8">
         
         {videos.map((video) => (
-          <a 
+          <Link 
             key={video.id.videoId} 
             href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
             target="_blank" 
@@ -78,7 +79,8 @@ export default async function YouTubeFeed() {
             <p className="mt-2 text-sm font-medium line-clamp-2 group-hover:text-blue-600">
               {video.snippet.title}
             </p>
-          </a>
+            <p className="w-full bg-black/80 my-2 py-2 rounded-full text-white text-sm text-center">Watch Now</p>
+          </Link>
         ))}
 
         {videos.length === 0 && (

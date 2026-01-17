@@ -18,10 +18,10 @@ export default function PostList({ posts }: PostListProps) {
 
   return (
     <div className="w-full h-full grid grid-cols-1 gap-12">
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <article
-          key={post.id}
-          className="w-full group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
+          key={index}
+          className="w-full group bg-white rounded-2xl shadow-sm border-4 border-gray-100 overflow-hidden shadow-xl hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
         >
           <Link href={`/${post.slug}`} className="block sm:grid sm:gap-2 sm:grid-cols-3">
             <div className="col-span-1 relative w-full h-48 sm:h-full overflow-hidden">
@@ -29,6 +29,7 @@ export default function PostList({ posts }: PostListProps) {
                 src={post.imageLink || '/placeholder.jpg'}
                 alt={post.title}
                 fill
+                priority={index === 0}
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -40,7 +41,8 @@ export default function PostList({ posts }: PostListProps) {
               </h2>
               <div className="flex items-center gap-2 border-b border-gray-300 px pb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-900">{post.postedBy}</span>
+                  <span className="text-sm font-medium text-gray-900">{post.postType.toLocaleUpperCase()}</span>
+                  {/* <span className="text-sm font-medium text-gray-900">{post.postedBy}</span> */}
                 </div>
                 <time
                   dateTime={post.createdAt.toString()}

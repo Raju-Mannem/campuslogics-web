@@ -11,6 +11,7 @@ import { generateHTML } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 import SafeHtml from '@/components/SafeHtml';
 import JsonLd from '@/components/JsonLd';
+import { GET_POST_BY_SLUG } from '@/lib/graphql/queries';
 
 export const revalidate = 60;
 
@@ -18,26 +19,9 @@ interface GetPostData {
   post: Post | null;
 }
 
-const GET_POST = gql`
-  query GetPost($slug: String!) {
-    post(slug: $slug) {
-      id
-      title
-      slug
-      imageLink
-      description
-      content
-      tags
-      links
-      postedBy
-      createdAt
-    }
-  }
-`;
-
 async function getPost(slug: string) {
   const { data } = await apolloClient.query<GetPostData>({
-    query: GET_POST,
+    query: GET_POST_BY_SLUG,
     variables: { slug },
     fetchPolicy: 'no-cache',
   });
@@ -125,7 +109,7 @@ export default async function PostPage({
   return (
     <>
       <JsonLd data={jsonLd} />
-      <section className="bg-white min-h-screen">
+      <section className="min-h-screen">
         <article className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl mx-auto">
           <div className="col-span-1 lg:col-span-3 bg-white py-8 lg:p-12 lg:border-x lg:border-gray-200">
 
@@ -177,11 +161,8 @@ export default async function PostPage({
               </div>
             )}
           </div>
-          <div className='col-span-1 py-8 lg:py-12'>
-            <div className="lg:sticky lg:top-24">
-              <h3 className="text-lg font-bold mb-4 px-2">Latest Videos</h3>
-              <YouTubeFeed />
-            </div>
+          <div className='bg-white col-span-1'>
+            <YouTubeFeed />
           </div>
         </article>
       </section>
