@@ -37,7 +37,7 @@ export default function HeaderContent({
                             />
                         </Link>
                     </div>
-                    <div className="basis-1/3 sm:basis-1/4">
+                    <div className="basis-1/3 sm:basis-1/4 sm:px-4">
                     <Suspense fallback={<div className="h-10 w-full bg-gray-100 animate-pulse rounded-lg" />}>
                         <SearchBar />
                     </Suspense>
@@ -48,7 +48,7 @@ export default function HeaderContent({
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`px-3 py-2 text-base sm:text-lg font-medium transition-colors ${pathname === link.href ? "text-brand-600" : "text-gray-600 hover:text-brand-600"
+                                className={`px-3 py-2 truncate md:text-clip font-medium transition-colors ${pathname === link.href ? "text-brand-600" : "text-gray-600 hover:text-brand-600"
                                     }`}
                             >
                                 {link.label}
@@ -74,7 +74,9 @@ export default function HeaderContent({
                         >
                             <span className="sr-only">Open menu</span>
                             {isMenuOpen ? (
-                                <CloseIcon />
+                                <div className="flex items-center bg-brand-500/80 hover:bg-brand-600/80 transition rounded-full text-white p-2">
+                                    <CloseIcon />
+                                </div>
                             ) : (
                                 <div className="flex items-center bg-brand-500/80 hover:bg-brand-600/80 transition rounded-full text-white p-2">
                                     <MenuIcon />

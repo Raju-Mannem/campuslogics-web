@@ -113,11 +113,12 @@ export default async function PostPage({
         <article className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl mx-auto">
           <div className="col-span-1 lg:col-span-3 bg-white py-8 lg:p-12 lg:border-x lg:border-gray-200">
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 break-words">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 break-words">
               {post.title}
             </h1>
 
-            <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex flex-wrap gap-3 mb-8">
+              <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">{new Date(Number(post.createdAt)).toLocaleDateString()}</span>
               {post.tags.map(tag => (
                 <span key={tag} className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
                   {tag}
@@ -135,7 +136,7 @@ export default async function PostPage({
               />
             </div>
 
-            <p className="text-lg md:text-xl italic my-8 text-gray-700 border-l-4 border-brand-500 pl-4">
+            <p className="text-lg my-8 text-gray-700 border-l-4 border-brand-500 pl-4">
               {post.description}
             </p>
 
