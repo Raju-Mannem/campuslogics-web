@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
-import { Inter } from 'next/font/google';
+import { Inter, Montserrat } from 'next/font/google';
 import "./globals.css";
 import ApolloWrapper from "@/components/ApolloWrapper"
 import Header from "@/components/Layout/Header";
@@ -8,17 +7,12 @@ import Footer from "@/components/Layout/Footer";
 
 import { LoaderProvider } from "@/context/LoaderContext";
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Campuslogics',
@@ -28,13 +22,20 @@ export const metadata: Metadata = {
   },
 };
 
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['700'],
+  display: 'swap',
+  variable: '--font-montserrat',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
       <body className="min-h-screen flex flex-col">
         <ApolloWrapper>
           <LoaderProvider>
