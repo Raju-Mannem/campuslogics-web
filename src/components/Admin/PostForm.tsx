@@ -38,7 +38,7 @@ interface PostFormProps {
 export default function PostForm({ post, onSuccess }: PostFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState<PostFormData>({
-    postType: post?.postType || '',
+    postType: post?.postType || 'job',
     title: post?.title || '',
     description: post?.description || '',
     content: post?.content || '',

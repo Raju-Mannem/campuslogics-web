@@ -111,7 +111,7 @@ export default async function PostPage({
       <JsonLd data={jsonLd} />
       <section className="min-h-screen">
         <article className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl mx-auto">
-          <div className="col-span-1 lg:col-span-3 bg-white py-8 lg:p-12 lg:border-x lg:border-gray-200">
+          <div className="col-span-1 lg:col-span-3 bg-white px-4 sm:px-8 py-8 sm:py-12 lg:border-x lg:border-gray-200">
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 break-words">
               {post.title}
