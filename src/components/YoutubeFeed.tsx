@@ -36,9 +36,9 @@ interface YouTubeSearchResponse {
 async function getLatestVideos(): Promise<YouTubeVideo[]> {
   const API_KEY = process.env.YOUTUBE_API_KEY;
   const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
-  const MAX_RESULTS = 5;
+  const MAX_ITEMS = 5;
 
-  const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}&type=video`;
+  const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_ITEMS}&type=video`;
 
   const res = await fetch(url, { next: { revalidate: 3600 * 24 } });
   

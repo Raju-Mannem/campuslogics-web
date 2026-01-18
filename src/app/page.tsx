@@ -4,6 +4,7 @@ import PostList from '@/components/Post/PostList';
 import PaginationControls from '@/components/PaginationControls';
 import { Post } from '@prisma/client';
 import Hero from '@/components/Hero';
+import LSide from '@/components/LSide';
 
 export const revalidate = 60;
 
@@ -47,16 +48,9 @@ export default async function PaginatedHomePage({
     <section className="min-h-screen">
       <Hero />
       <div className="relative border-b border-gray-200 overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-7xl mx-auto mb-12 px-4 sm:px-6 lg:px-8 py-16">
-          <div className="col-span-1 flex flex-col justify-start items-start gap-4 mb-4 lg:mb-0 lg:border-r border-gray-300 lg:sticky lg:top-30">
-            <h2 className="text-3xl font-bold text-gray-900">Filters</h2>
-            <select className="w-full lg:w-auto px-4 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:ring-2 focus:ring-brand-500 outline-none">
-              <option>Any Topic</option>
-              <option>Development</option>
-              <option>Design</option>
-            </select>
-          </div>
-          <div className="col-span-1 lg:col-span-3">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 place-items-center max-w-7xl mx-auto mb-12 px-4 sm:px-6 lg:px-8">
+          <LSide />
+          <div className="col-span-1 self-start lg:col-span-3 w-full lg:border-l-2 lg:border-gray-300 lg:px-8">
             <PostList posts={posts} />
             {totalPages > 1 && (
               <div className="mt-12 mb-12">

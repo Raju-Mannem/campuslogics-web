@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <div className='z-10 relative flex flex-col lg:flex-row items-center justify-center gap-4 w-full min-h-[16rem] h-auto mb-12 px-6 lg:px-24 py-12 bg-brand-600/20 rounded-b-[50px] sm:rounded-[0px_0px_300px]'>
+        <div className='z-10 relative flex flex-col lg:flex-row items-center justify-center gap-4 w-full min-h-[16rem] h-auto mb-12 px-6 lg:px-24 py-12 bg-brand-600/20 rounded-b-[50px] sm:rounded-[0px_0px_300px] overflow-hidden'>
         <div className='w-full h-full lg:w-1/4 mb-2 lg:mb-0 text-center lg:text-left'>
           <h2 className="text-3xl font-bold text-gray-900">Categories</h2>
         </div>
