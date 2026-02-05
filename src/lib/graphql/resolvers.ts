@@ -260,7 +260,7 @@ const resolvers = {
         throw new Error("You must be logged in to upload an image.");
       }
       const imageKitService = new ImageKitService()
-      const uploadResult = await imageKitService.uploadImage(file, name, "public/logo.png")
+      const uploadResult = await imageKitService.uploadImage(file, name)
 
       return await prisma.image.create({
         data: {
