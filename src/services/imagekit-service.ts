@@ -1,14 +1,13 @@
 import { imagekit } from "@/lib/imagekit";
-import sharp from "sharp";
-import fs from "fs";
-import path from "path";
+// import sharp from "sharp";
+// import fs from "fs";
+// import path from "path";
 
 export class ImageKitService {
-    async uploadImage(file: File, fileName: string, logoPath: string): Promise<{ url: string; publicId: string }> {
+    async uploadImage(file: File, fileName: string): Promise<{ url: string; publicId: string }> {
         try {
-            const arrayBuffer = await file.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
-            const baseImage = sharp(buffer);
+            const buffer = Buffer.from(await file.arrayBuffer());
+            /*const baseImage = sharp(buffer);
             const metadata = await baseImage.metadata();
 
             const logoBuffer = await sharp(logoPath)
@@ -24,9 +23,9 @@ export class ImageKitService {
                     },
                 ])
                 .toBuffer();
-
+			*/
             const response = await imagekit.upload({
-                file: processedBuffer,
+                file: buffer,
                 fileName: fileName,
             });
 
@@ -34,7 +33,7 @@ export class ImageKitService {
                 url: response.url,
                 publicId: response.fileId,
             };
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("ImageKit upload failed:", error);
             throw new Error("Failed to upload image to ImageKit");
         }

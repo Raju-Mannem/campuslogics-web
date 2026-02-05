@@ -24,7 +24,7 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const uploadResult = await imageKitService.uploadImage(file, name, "public/logo.png");
+    const uploadResult = await imageKitService.uploadImage(file, name);
 
     const image = await prisma.image.create({
       data: {
