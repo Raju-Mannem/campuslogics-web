@@ -3,6 +3,7 @@ import { Post } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import PostForm from '@/components/Admin/PostForm';
 import { GET_POST_BY_SLUG } from '@/lib/graphql/queries';
+import { SessionProvider } from "next-auth/react";
 
 interface GetPostData {
     post: Post | null;
@@ -35,7 +36,7 @@ export default async function EditPostPage({ params }: Props) {
         return (
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-3xl font-bold mb-8 text-center">Edit Post</h1>
-                <PostForm post={post} />
+                <SessionProvider><PostForm post={post} /></SessionProvider>
             </div>
         );
     } catch (error) {

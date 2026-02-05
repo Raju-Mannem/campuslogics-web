@@ -9,6 +9,7 @@ import Tiptap from '../Editor';
 import Image from 'next/image';
 import { Prisma } from '@prisma/client';
 import { CREATE_POST, UPDATE_POST } from '@/lib/graphql/mutations';
+import { useSession } from "next-auth/react";
 
 interface CreatePostResponse {
   createPost: Post;
@@ -37,16 +38,18 @@ interface PostFormProps {
 
 export default function PostForm({ post, onSuccess }: PostFormProps) {
   const router = useRouter();
+  const { data: session } = useSession();
+  
   const [formData, setFormData] = useState<PostFormData>({
-    postType: post?.postType || 'job',
-    title: post?.title || '',
-    description: post?.description || '',
-    content: post?.content || '',
-    tags: post?.tags.join(', ') || '',
+    postType: post?.postType ?? 'job',
+    title: post?.title ?? '',
+    description: post?.description ?? '',
+    content: post?.content ?? {},
+    tags: post?.tags?.join(', ') ?? '',
     links: post?.links ? JSON.stringify(post.links, null, 2) : '{}',
-    postedBy: post?.postedBy || '',
-    imageLink: post?.imageLink || '',
-    published: post?.published || false
+    postedBy: post?.postedBy ?? "",
+    imageLink: post?.imageLink ?? '',
+    published: post?.published ?? false
   })
 
   const [selectedImage, setSelectedImage] = useState<PrismaImage | null>(null)
@@ -55,20 +58,26 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
   const { showLoader, hideLoader } = useLoader();
 
   useEffect(() => {
+	if (!session?.user?.name) return;
+	const adminName = session.user.name.replace("Admin", "").trim();
     if (post) {
       setFormData({
-        postType: post.postType || '',
-        title: post.title || '',
-        description: post.description || '',
-        content: post.content || '',
-        tags: post.tags.join(', ') || '',
+        postType: post.postType ?? '',
+        title: post.title ?? '',
+        description: post.description ?? '',
+        content: post.content ?? {},
+        tags: post?.tags?.join(', ') ?? '',
         links: post.links ? JSON.stringify(post.links, null, 2) : '{}',
-        postedBy: post.postedBy || '',
-        imageLink: post.imageLink || '',
-        published: post.published || false
+        postedBy: post.postedBy ?? adminName,
+        imageLink: post.imageLink ?? '',
+        published: post.published ?? false
       })
     }
-  }, [post]);
+	setFormData(prev => ({
+    ...prev,
+    postedBy: prev.postedBy || adminName,
+  }));
+  }, [session, post]);
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,7 +88,7 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
       return
     }
 
-    let parsedLinks = {}
+    let parsedLinks : Record<string, unknown>;
     try {
       parsedLinks = JSON.parse(formData.links)
     } 
@@ -138,7 +147,7 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
       hideLoader();
     }
   }
-
+  
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
