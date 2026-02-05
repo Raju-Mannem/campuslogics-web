@@ -91,7 +91,7 @@ export async function PUT(
         }
 
         // 2. Upload new image
-        const uploadResult = await imageKitService.uploadImage(file, file.name, "public/logo.png");
+        const uploadResult = await imageKitService.uploadImage(file, file.name);
 
         // 3. Update Database
         const updatedImage = await prisma.image.update({
