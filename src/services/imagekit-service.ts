@@ -24,7 +24,7 @@ export class ImageKitService {
                 ])
                 .toBuffer();
 			*/
-            const response = await imagekit.upload({
+            const response = await imagekit().upload({
                 file: buffer,
                 fileName: fileName,
             });
@@ -41,7 +41,7 @@ export class ImageKitService {
 
     async deleteImage(publicId: string): Promise<void> {
         try {
-            await imagekit.deleteFile(publicId);
+            await imagekit().deleteFile(publicId);
         } catch (error) {
             console.error("ImageKit delete failed:", error);
             throw new Error("Failed to delete image from ImageKit");
