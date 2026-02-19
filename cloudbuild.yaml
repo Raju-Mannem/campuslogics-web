@@ -7,7 +7,12 @@ steps:
     args:
       - build
       - -t
-      - gcr.io/$PROJECT_ID/raju-mannem
+      - us-central1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem
+      - .
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - us-central1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem
       - --build-arg
       - NEXT_PUBLIC_BASE_URL=${_NEXT_PUBLIC_BASE_URL}
       - --build-arg

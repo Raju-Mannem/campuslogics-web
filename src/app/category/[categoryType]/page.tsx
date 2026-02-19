@@ -4,6 +4,7 @@ import PostList from '@/components/Post/PostList';
 import PaginationControls from '@/components/PaginationControls';
 import { Post } from '@prisma/client';
 
+export const dynamic = "force-dynamic"
 export const revalidate = 60;
 
 interface GetPostData {
