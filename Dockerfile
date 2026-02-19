@@ -1,5 +1,5 @@
 FROM node:22-alpine AS builder
-RUN apt-get update && apt-get install -y openssl
+RUN apk add --no-cache openssl
 WORKDIR /app
 
 COPY package*.json ./
