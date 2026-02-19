@@ -7,24 +7,19 @@ steps:
     args:
       - build
       - -t
-      - us-central1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem
-      - .
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - push
-      - us-central1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem
+      - asia-south1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem:latest
+      - --build-arg
+      - NODE_ENV=production
       - --build-arg
       - NEXT_PUBLIC_BASE_URL=${_NEXT_PUBLIC_BASE_URL}
       - --build-arg
       - NEXT_PUBLIC_GRAPHQL_API_URL=${_NEXT_PUBLIC_GRAPHQL_API_URL}
-      - --build-arg
-      - NODE_ENV=production
       - .
-
+      
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - push
-      - gcr.io/$PROJECT_ID/raju-mannem
+      - us-central1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem:latest
 
 options:
   logging: CLOUD_LOGGING_ONLY
