@@ -1,3 +1,7 @@
+substitutions:
+  _NEXT_PUBLIC_BASE_URL: ""
+  _NEXT_PUBLIC_GRAPHQL_API_URL: ""
+
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
@@ -5,18 +9,17 @@ steps:
       - -t
       - gcr.io/$PROJECT_ID/raju-mannem
       - --build-arg
-      - NEXT_PUBLIC_BASE_URL=$$NEXT_PUBLIC_BASE_URL
+      - NEXT_PUBLIC_BASE_URL=${_NEXT_PUBLIC_BASE_URL}
       - --build-arg
-      - NEXT_PUBLIC_GRAPHQL_API_URL=$$NEXT_PUBLIC_GRAPHQL_API_URL
+      - NEXT_PUBLIC_GRAPHQL_API_URL=${_NEXT_PUBLIC_GRAPHQL_API_URL}
       - --build-arg
       - NODE_ENV=production
       - .
-    secretEnv:
-      - NEXT_PUBLIC_BASE_URL
-      - NEXT_PUBLIC_GRAPHQL_API_URL
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/raju-mannem']
+    args:
+      - push
+      - gcr.io/$PROJECT_ID/raju-mannem
 
 options:
   logging: CLOUD_LOGGING_ONLY
