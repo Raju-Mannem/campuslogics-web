@@ -32,4 +32,4 @@ COPY --from=builder /app/public ./public
 
 EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["node ", "server.js"]
