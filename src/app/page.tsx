@@ -6,7 +6,6 @@ import { Post } from '@prisma/client';
 import Hero from '@/components/Hero';
 import LSide from '@/components/LSide';
 
-export const dynamic = "force-dynamic"
 export const revalidate = 60;
 
 interface GetPostData {

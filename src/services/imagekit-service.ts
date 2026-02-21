@@ -6,7 +6,7 @@ import { imagekit } from "@/lib/imagekit";
 export class ImageKitService {
     async uploadImage(file: File, fileName: string): Promise<{ url: string; publicId: string }> {
         try {
-            const buffer = Buffer.from(await file.arrayBuffer());
+            // const buffer = Buffer.from(await file.arrayBuffer());
             /*const baseImage = sharp(buffer);
             const metadata = await baseImage.metadata();
 
@@ -24,14 +24,14 @@ export class ImageKitService {
                 ])
                 .toBuffer();
 			*/
-            const response = await imagekit().upload({
-                file: buffer,
+            const response = await imagekit().files.upload({
+                file: file,
                 fileName: fileName,
             });
 
             return {
-                url: response.url,
-                publicId: response.fileId,
+                url: response.url!,
+                publicId: response.fileId!,
             };
         } catch (error: unknown) {
             console.error("ImageKit upload failed:", error);
@@ -41,7 +41,7 @@ export class ImageKitService {
 
     async deleteImage(publicId: string): Promise<void> {
         try {
-            await imagekit().deleteFile(publicId);
+            await imagekit().files.delete(publicId);
         } catch (error) {
             console.error("ImageKit delete failed:", error);
             throw new Error("Failed to delete image from ImageKit");

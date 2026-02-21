@@ -12,7 +12,6 @@ import SafeHtml from '@/components/SafeHtml';
 import JsonLd from '@/components/JsonLd';
 import { GET_POST_BY_SLUG } from '@/lib/graphql/queries';
 
-export const dynamic = "force-dynamic"
 export const revalidate = 60;
 
 interface GetPostData {

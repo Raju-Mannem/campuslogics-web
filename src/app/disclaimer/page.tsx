@@ -1,3 +1,5 @@
+export const dynamic = "force-static";
+
 export default function Disclaimer() {
     return (
         <section className="min-h-screen px-4 sm:px-6 lg:px-8">

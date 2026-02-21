@@ -1,34 +1,48 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: "gcr.io/cloud-builders/docker"
     args:
       [
-        'build',
-        '-t',
-        'gcr.io/$PROJECT_ID/campuslogics/blog:latest',
-        '--build-arg', 'NEXT_PUBLIC_BASE_URL=$_NEXT_PUBLIC_BASE_URL',
-        '--build-arg', 'NEXT_PUBLIC_GRAPHQL_API_URL=$_NEXT_PUBLIC_GRAPHQL_API_URL',
-        '--build-arg', 'NODE_ENV=production',
-        '.'
+        "build",
+        "-t",
+        "gcr.io/$PROJECT_ID/campuslogics/blog:latest",
+        "--build-arg",
+        "NEXT_PUBLIC_BASE_URL=$_NEXT_PUBLIC_BASE_URL",
+        "--build-arg",
+        "NEXT_PUBLIC_GRAPHQL_API_URL=$_NEXT_PUBLIC_GRAPHQL_API_URL",
+        "--build-arg",
+        "NODE_ENV=production",
+        ".",
       ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/campuslogics/blog:latest']
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/campuslogics/blog:latest"]
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
       [
-        'run',
-        'deploy',
-        'nextjs-app',
-        '--image', 'gcr.io/$PROJECT_ID/campuslogics/blog:latest',
-        '--region', 'us-central1',
-        '--platform', 'managed',
-        '--allow-unauthenticated'
+        "run",
+        "deploy",
+        "campuslogics-web",
+        "--image",
+        "gcr.io/$PROJECT_ID/campuslogics/blog:latest",
+        "--region",
+        "asia-south1",
+        "--platform",
+        "managed",
+        "--allow-unauthenticated",
+        "--cpu",
+        "1",
+        "--memory",
+        "512Mi",
+        "--min-instances",
+        "1",
+        "--max-instances",
+        "10",
       ]
 
 images:
-  - 'gcr.io/$PROJECT_ID/campuslogics/blog:latest'
+  - "gcr.io/$PROJECT_ID/campuslogics/blog:latest"
 
 substitutions:
   _NEXT_PUBLIC_BASE_URL: "https://www.campuslogics.org/"
