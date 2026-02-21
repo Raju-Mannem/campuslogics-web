@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/schema';
+import resolvers from '@/lib/graphql/resolvers';
+import typeDefs from '@/lib/graphql/schema';
 import { auth } from "@/auth";
 
 
