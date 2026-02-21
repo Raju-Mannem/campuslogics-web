@@ -4,7 +4,6 @@ import resolvers from '@/lib/graphql/resolvers';
 import typeDefs from '@/lib/graphql/schema';
 import { auth } from "@/auth";
 
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,

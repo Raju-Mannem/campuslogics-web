@@ -47,3 +47,4 @@ images:
 substitutions:
   _NEXT_PUBLIC_BASE_URL: "https://www.campuslogics.org/"
   _NEXT_PUBLIC_GRAPHQL_API_URL: "https://www.campuslogics.org/api/graphql"
+
