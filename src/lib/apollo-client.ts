@@ -1,9 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, ApolloLink } from "@apollo/client";
 import { ErrorLink } from "@apollo/client/link/error";
 
-const isServer = typeof window === "undefined";
-
-const GRAPHQL_URI = isServer ? process.env.NEXT_PUBLIC_GRAPHQL_API_URL : "";
+const GRAPHQL_URI = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? "/api/graphql";
 
 const errorLink = new ErrorLink(({ error }) => {
   if (error) {
@@ -12,9 +10,7 @@ const errorLink = new ErrorLink(({ error }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: isServer
-  ? `${process.env.NEXT_PUBLIC_GRAPHQL_API_URL}/api/graphql`
-  : "/api/graphql",
+  uri: GRAPHQL_URI,
   // credentials: "include",
 });
 
