@@ -9,11 +9,11 @@ steps:
       - -t
       - asia-south1-docker.pkg.dev/$PROJECT_ID/campuslogics/raju-mannem:latest
       - --build-arg
-      - NODE_ENV=production
+      - NODE_ENV='production'
       - --build-arg
-      - NEXT_PUBLIC_BASE_URL=${_NEXT_PUBLIC_BASE_URL}
+      - NEXT_PUBLIC_BASE_URL='https://www.campuslogics.org/'
       - --build-arg
-      - NEXT_PUBLIC_GRAPHQL_API_URL=${_NEXT_PUBLIC_GRAPHQL_API_URL}
+      - NEXT_PUBLIC_GRAPHQL_API_URL='https://www.campuslogics.org/api/graphql'
       - .
       
   - name: 'gcr.io/cloud-builders/docker'
