@@ -12,7 +12,7 @@ const errorLink = new ErrorLink(({ error }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: isServer ? `${baseUrl}/api/graphql` : "/api/graphql",
+  uri: isServer ? `${baseUrl}` : "/api/graphql",
   // credentials: "include",
 });
 
