@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: 'Campuslogics',
   description: 'Campuslogics for jobs, internships, scholarships,admissions, exam preparation and news',
   icons: {
-    icon: '/icon.ico',
+    icon: '/cicon.ico',
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
