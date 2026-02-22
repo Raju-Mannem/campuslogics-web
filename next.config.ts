@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
 
   experimental: {
     serverActions: {
-      allowedOrigins: ["campuslogics.org", "www.campuslogics.org"],
+      allowedOrigins: ["campuslogics.org", "https://campuslogics.org", "www.campuslogics.org"],
     },
   },
 
