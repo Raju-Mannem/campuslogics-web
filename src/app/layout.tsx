@@ -15,6 +15,9 @@ const inter = Inter({
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://campuslogics.org"
+  ),
   title: 'Campuslogics',
   description: 'Campuslogics for jobs, internships, scholarships,admissions, exam preparation and news',
   icons: {
@@ -22,6 +25,8 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
+    type: "website",
+    siteName: "CampusLogics",
     images: [
       {
         url: '/campuslogics.jpg',
@@ -29,6 +34,10 @@ export const metadata: Metadata = {
         height: 630,
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/campuslogics.jpg"],
   },
 };
 
