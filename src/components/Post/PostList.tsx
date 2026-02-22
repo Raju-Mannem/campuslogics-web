@@ -23,8 +23,8 @@ export default function PostList({ posts }: PostListProps) {
           key={index}
           className="w-full group bg-white rounded-2xl shadow-sm border-4 border-gray-100 overflow-hidden shadow-xl hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
         >
-          <Link href={`/${post.slug}`} className="block sm:grid sm:gap-2 sm:grid-cols-3">
-            <div className="col-span-1 relative w-full h-48 sm:h-full overflow-hidden">
+          <Link href={`/${post.slug}`} className="block sm:grid sm:gap-2 sm:grid-cols-3 place-items-center">
+            <div className="col-span-1 relative w-full aspect-[16/9] overflow-hidden">
               <Image
                 src={post.imageLink || '/placeholder.jpg'}
                 alt={post.title}
@@ -33,7 +33,6 @@ export default function PostList({ posts }: PostListProps) {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="col-span-2 flex flex-col gap-4 p-6">
               <h2 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-brand-600 transition-colors">

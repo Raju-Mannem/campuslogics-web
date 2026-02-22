@@ -42,7 +42,7 @@ export async function generateMetadata(
     title: `${post.title} | CampusLogics`,
     description: post.description,
     alternates: {
-      canonical: `https://campuslogics.com/blog/${post.slug}`,
+      canonical: `https://campuslogics.org/${post.slug}`,
     },
     authors: [{ name: post.postedBy }],
     openGraph: {
@@ -128,7 +128,7 @@ export default async function PostPage({
 
             <div className="flex flex-wrap gap-3 mb-8">
               <ShareButtons
-                url={`https://campuslogics.org/blog/${post.slug}`}
+                url={`https://campuslogics.org/${post.slug}`}
                 title={post.title}
                 description={post.description}
               />

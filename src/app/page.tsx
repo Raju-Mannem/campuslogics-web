@@ -123,7 +123,7 @@ export default async function PaginatedHomePage({
     itemListElement: posts.map((post, index) => ({
       "@type": "ListItem",
       position: (currentPage - 1) * limit + index + 1,
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}/${post.slug}`,
       name: post.title,
     })),
   };
