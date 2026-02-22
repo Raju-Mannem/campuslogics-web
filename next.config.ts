@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'standalone',
   serverExternalPackages: ['@prisma/client', 'prisma'],
+
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["www.campuslogics.org"],
+    },
+  },
+
   images: {
     remotePatterns: [
       {
