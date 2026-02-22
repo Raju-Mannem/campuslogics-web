@@ -16,9 +16,19 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Campuslogics',
-  description: 'Campuslogics is a jobboard sharing information of latest job notifications and skill development oppotunities',
+  description: 'Campuslogics for jobs, internships, scholarships,admissions, exam preparation and news',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    images: [
+      {
+        url: '/campuslogics.jpg',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 

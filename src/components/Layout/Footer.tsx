@@ -1,18 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { YoutubeIcon, TelegramIcon, WhatsappIcon, InstagramIcon } from './SocialIcons';
+import { BookCheckIcon, FileUserIcon, GlobeLockIcon, InfoIcon, ProjectorIcon, ReceiptTextIcon, ScrollTextIcon } from 'lucide-react';
 
 export default function Footer() {
     const links1 = [
-        { href: "/about", label: "About" },
-        { href: "/privacy", label: "Privacy policy" },
-        { href: "/termsconditions", label: "Terms & conditions" },
-        { href: "/disclaimer", label: "Disclaimer" },
+        { href: "/about", label: "About", icon: <InfoIcon className="size-4"/> },
+        { href: "/privacy", label: "Privacy policy", icon: <GlobeLockIcon className="size-4" /> },
+        { href: "/termsconditions", label: "Terms & conditions", icon: <ReceiptTextIcon className="size-4" /> },
+        { href: "/disclaimer", label: "Disclaimer", icon: <ScrollTextIcon className="size-4" /> },
     ];
     const links2 = [
-        { href: "/projects", label: "Projects" },
-        { href: "/resumes", label: "Resumes" },
-        { href: "/tests", label: "Tests" },
+        { href: "/projects", label: "Projects", icon: <ProjectorIcon className="size-4" /> },
+        { href: "/resumes", label: "Resumes", icon: <FileUserIcon className="size-4" /> },
+        { href: "/tests", label: "Tests", icon: <BookCheckIcon className="size-4" /> },
     ];
     return (
         <footer className="bg-white border-t border-gray-100">
@@ -30,8 +31,8 @@ export default function Footer() {
                             <p className="text-gray-500 max-w-sm text-base sm:text-sm">
                                 <strong>Collaborations</strong>
                                 <br />
-                                <a href="mailto:campuslogics.in@gmail.com" className="text-brand-600 hover:text-brand-700 transition">
-                                    campuslogics.in@gmail.com
+                                <a href="mailto:web.campuslogics@gmail.com" className="text-brand-600 hover:text-brand-700 transition">
+                                    web.campuslogics@gmail.com
                                 </a>
                             </p>
                         </div>
@@ -73,7 +74,7 @@ export default function Footer() {
                             {links1.map((link) => (
                                 <li key={link.href}>
                                     <Link href={link.href} className="text-gray-500 hover:text-brand-600 transition">
-                                        {link.label}
+                                        <span className="flex items-center gap-2">{link.icon}{link.label}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -86,7 +87,7 @@ export default function Footer() {
                             {links2.map((link) => (
                                 <li key={link.href}>
                                     <Link href={link.href} className="text-gray-500 hover:text-brand-600 transition">
-                                        {link.label}
+                                        <span className="flex items-center gap-2">{link.icon}{link.label}</span>
                                     </Link>
                                 </li>
                             ))}

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma/client';
 export const dynamic = "force-dynamic"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://campuslogics.in';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://campuslogics.org';
 try {
     // Get all posts
     const posts = await prisma.post.findMany({

@@ -6,12 +6,12 @@ export default function Privacy() {
             <article className="bg-white w-full flex flex-col gap-4 border-x border-gray-200 p-12">
                 <h1 className="text-3xl font-bold text-gray-900">Privacy Policy</h1>
                 <p className="text-gray-600 text-lg">
-                    Our Website campuslogics accessible at www.campuslogics.in, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by www.campuslogics.in and how we use it.
+                    Our Website campuslogics accessible at www.campuslogics.org, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by www.campuslogics.org and how we use it.
                     We will not use or share your information with anyone except as described in this Privacy Policy.
-                    We use your Personal Information for providing and improving the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at https://campuslogics.in
+                    We use your Personal Information for providing and improving the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at https://campuslogics.org
                 </p>
                 <p className="text-gray-600 text-lg">
-                    If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at campuslogics.in@gmail.com
+                    If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at web.campuslogics@gmail.com
                 </p>
                 <h1 className="text-2xl font-bold text-gray-900">Information Collection And Use</h1>
                 <p className="text-gray-600 text-lg">
@@ -40,7 +40,7 @@ export default function Privacy() {
                 <p className="text-gray-600 text-lg">we strongly believe private data is sensitive, and it&apos;s not be shared </p>
                 <h1 className="text-2xl font-bold text-gray-900">Advertising Partners Privacy Policies</h1>
                 <p className="text-gray-600 text-lg">
-                    You may consult this list to find the Privacy Policy for each of the advertising partners of campuslogics.in.
+                    You may consult this list to find the Privacy Policy for each of the advertising partners of campuslogics.org
                 </p>
                 <p className="text-gray-600 text-lg">Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on fresheroffcampus, which are sent directly to users&apos; browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.</p>
                 <p className="text-gray-600 text-lg">
@@ -55,7 +55,7 @@ export default function Privacy() {
                 </p>
                 <h1 className="text-2xl font-bold text-gray-900">Contact Us</h1>
                 <p className="text-gray-600 text-lg">
-                    For Any Complaints, Suggestions, Security Issues and Copyright policy please contact us on campuslogics.in@gmail.com
+                    For Any Complaints, Suggestions, Security Issues and Copyright policy please contact us on web.campuslogics@gmail.com
                 </p>
             </article>
         </section>

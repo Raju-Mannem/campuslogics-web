@@ -8,7 +8,7 @@ export default function Contact() {
                 <article className="bg-white w-full min-h-screen flex flex-col gap-4 border-x border-gray-200 p-12">
                         <h1 className="text-3xl font-bold text-gray-900">Contact us</h1>
                         <p className="text-gray-600 text-lg">
-                            If you have any queries please contact us <Link href="mailto:campuslogics.in@gmail.com" className="text-brand-600 font-bold">campuslogics.in@gmail.com</Link>
+                            If you have any queries please contact us <Link href="mailto:web.campuslogics@gmail.com" className="text-brand-600 font-bold">web.campuslogics@gmail.com</Link>
                         </p>
                         <h2 className="text-2xl font-bold text-gray-900">Main Motive</h2>
                         <p className="text-gray-600 text-lg">We believe in free education and resources, The Education is not for the one who is having Money But also who works hard.

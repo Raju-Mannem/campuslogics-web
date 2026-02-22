@@ -6,13 +6,13 @@ export default function TermsConditions() {
                 <article className="bg-white w-full flex flex-col gap-4 border-x border-gray-200 p-12">
                         <h1 className="text-3xl font-bold text-gray-900">Terms & Conditions</h1>
                         <p className="text-gray-600 text-lg">
-                            Welcome to campuslogics.in
+                            Welcome to campuslogics.org
                         </p>
                         <p className="text-gray-600 text-lg">
-                            Please read these Terms of Use (&quot;Terms, &quot; &quot;Terms of Use&quot;) carefully before using the https://campuslogics.in website (the &quot;Service&quot;) operated by campuslogics (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).
+                            Please read these Terms of Use (&quot;Terms, &quot; &quot;Terms of Use&quot;) carefully before using the https://campuslogics.org website (the &quot;Service&quot;) operated by campuslogics (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).
                         </p>
                         <p className="text-gray-600 text-lg">
-                            These terms and conditions outline the rules and regulations for the use of campuslogics.in Website, located at https://campuslogics.in/.
+                            These terms and conditions outline the rules and regulations for the use of campuslogics.org Website, located at https://campuslogics.org/.
                         </p>
                         <p className="text-gray-600 text-lg">
                             By accessing this website we assume you accept these terms and conditions. If you disagree with any part of the terms then you may not access the Service.
@@ -34,7 +34,7 @@ export default function TermsConditions() {
                         </p>
                         <h1 className="text-2xl font-bold text-gray-900">License</h1>
                         <p className="text-gray-600 text-lg">
-                            Unless otherwise stated, campuslogics.in and/or its licensors own the intellectual property rights for all material on campuslogics.in. All intellectual property rights are reserved. You may access this from campuslogics.in for your own personal use subjected to restrictions set in these terms and conditions.
+                            Unless otherwise stated, campuslogics.org and/or its licensors own the intellectual property rights for all material on campuslogics.org. All intellectual property rights are reserved. You may access this from campuslogics.org for your own personal use subjected to restrictions set in these terms and conditions.
                         </p>
                         <p className="text-gray-600 text-lg">
                             campuslogics will not be liable for any delay or interruption in your access to the site or any content located on the site, or for any transmission errors, equipment or software incompatibilities, force majeure or other failure of performance. campuslogics will use reasonable efforts to correct any failure of performance, but campuslogics will not be required to make any changes to any equipment or software used by campuslogics or its contractors or agents to ensure compatibility with any equipment or software used by you. You may not use the site or the content on the site for any commercial purpose, including but not limited to the use of any of the content to market or sell goods or services to any person. You agree not to launch any automated system, including without limitation, &quot;robots,&quot; &quot;spiders,&quot; or &quot;offline readers,&quot; to access the site.
@@ -45,7 +45,7 @@ export default function TermsConditions() {
                         <p className="text-gray-600 text-lg">
                             you agree that your use of the site shall be at your sole risk, and campuslogics will not be held liable in any way for your use of the site or for any information contained on the site. all content contained in or referred to on the site is provided “as is,” without any representations or warranties, express or implied. to the fullest extent permitted by law, frontlines media disclaims all warranties, express or implied, including, without limitation, all implied warranties of merchantability and fitness for a particular purpose. frontlines media makes no warranties that the site will be error-free, or that any errors will be corrected, or that the site or the server from which the site is operated will be free of viruses or other potentially harmful codes. under no circumstances, including negligence, shall frontlines media be held liable for any direct, indirect, incidental, special or consequential damages and expenses of any kind (including, without limitation, personal injury or property damage, lost profits, and damages arising from computer viruses, business interruption, lost data, unauthorized access to or use of site servers or any personal information stored therein, or any interruption or cessation of operation of the site) arising out of or in any way connected with the use of the site or any information contained on the site, whether such damages are based on contract, tort, strict liability or otherwise, even if advised of the possibility of such damages.
                         </p>
-                        <p className="text-gray-600 text-lg">If you have any questions about these Terms, please contact us on campuslogics.in@gmail.com</p>
+                        <p className="text-gray-600 text-lg">If you have any questions about these Terms, please contact us on web.campuslogics@gmail.com</p>
                 </article>
     </section>
     );

@@ -6,7 +6,7 @@ export default function Disclaimer() {
                 <article className="bg-white w-full min-h-screen flex flex-col gap-4 border-x border-gray-200 p-12">
                         <h1 className="text-3xl font-bold text-gray-900">Disclaimer</h1>
                         <p className="text-gray-600 text-lg">
-                            If you require any more information or have any questions about our site&apos;s disclaimer, please feel free to contact us by email at campuslogics.in@gmail.com
+                            If you require any more information or have any questions about our site&apos;s disclaimer, please feel free to contact us by email at web.campuslogics@gmail.com
                         </p>
                         <p className="text-gray-600 text-lg">
                             All the information on this website campuslogics is published in good faith and for general information purpose only. campuslogics does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (campuslogics), is strictly at your own risk. campuslogics will not be liable for any losses and/or damages in connection with the use of our website.

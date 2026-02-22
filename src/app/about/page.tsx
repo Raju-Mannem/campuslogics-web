@@ -20,7 +20,7 @@ export default function About() {
                             All the jobs posted in CampusLogics provides only information.Companies may change/modify/postpone/cancel any exam or event without inform . CampusLogics is not responsible if any exam or event change / modify / postpone / cancel.
                             CampusLogics does not charge any amount.
                         </p><br/>
-                        <p className="text-gray-600 text-lg"> If you have any queries please contact us <Link href="mailto:campuslogics.in@gmail.com" className="text-brand-600 font-bold">campuslogics.in@gmail.com</Link></p>
+                        <p className="text-gray-600 text-lg"> If you have any queries please contact us <Link href="mailto:web.campuslogics@gmail.com" className="text-brand-600 font-bold">web.campuslogics@gmail.com</Link></p>
                 </article>
     </section>
     );

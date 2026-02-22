@@ -1,13 +1,14 @@
 import { auth, signOut } from '@/auth';
 import HeaderContent from './HeaderContent';
+import { BookCheckIcon, BriefcaseBusinessIcon, GraduationCapIcon, SchoolIcon } from 'lucide-react';
 
 export default async function Header() {
     const session = await auth();
     const links = [
-        { href: "/internships", label: "Internships" },
-        { href: "/scholarships", label: "Scholarships" },
-        { href: "/tests", label: "Tests" },
-        { href: "/admissions", label: "Admissions" },
+        { href: "/internships", label: "Internships", icon: <BriefcaseBusinessIcon className="size-5 sm:size-5" /> },
+        { href: "/scholarships", label: "Scholarships", icon: <GraduationCapIcon className="size-5 sm:size-5" /> },
+        { href: "/tests", label: "Tests", icon: <BookCheckIcon className="size-5 sm:size-5" /> },
+        { href: "/admissions", label: "Admissions", icon: <SchoolIcon className="size-5 sm:size-5" /> },
     ];
 
     const logoutButton = (

@@ -11,6 +11,7 @@ import StarterKit from '@tiptap/starter-kit';
 import SafeHtml from '@/components/SafeHtml';
 import JsonLd from '@/components/JsonLd';
 import { GET_POST_BY_SLUG } from '@/lib/graphql/queries';
+import ShareButtons from '@/components/ShareButtons';
 
 export const revalidate = 60;
 
@@ -96,12 +97,12 @@ export default async function PostPage({
       name: 'CampusLogics',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://campuslogics.in/logo.png',
+        url: 'https://campuslogics.org/logo.png',
       },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://campuslogics.in/${post.slug}`,
+      '@id': `https://campuslogics.org/${post.slug}`,
     },
   };
 
@@ -116,13 +117,21 @@ export default async function PostPage({
               {post.title}
             </h1>
 
-            <div className="flex flex-wrap gap-3 mb-8">
+            <div className="flex flex-wrap gap-3 mb-2">
               <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">{new Date(Number(post.createdAt)).toLocaleDateString()}</span>
               {post.tags.map(tag => (
                 <span key={tag} className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
                   {tag}
                 </span>
               ))}
+            </div>
+
+            <div className="flex flex-wrap gap-3 mb-8">
+              <ShareButtons
+                url={`https://campuslogics.org/blog/${post.slug}`}
+                title={post.title}
+                description={post.description}
+              />
             </div>
 
             <div className="relative w-full aspect-video lg:aspect-square max-h-[500px] mb-8 mx-auto">
