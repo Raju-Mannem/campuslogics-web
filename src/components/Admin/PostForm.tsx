@@ -76,12 +76,14 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
     if (!session?.user?.name) return;
 
     const adminName = session.user.name.replace("Admin", "").trim();
-
+	setValue("postedBy", getValues("postedBy") || adminName);
+	 if (post) {
     reset({
       ...defaultValues,
       postedBy: defaultValues.postedBy || adminName,
     });
-  }, [session, post, reset, defaultValues]);
+	}
+  }, []);
 
   const onSubmit = async (values: PostFormValues) => {
     if (!selectedImage && !post?.imageLink && !values.imageLink) {
