@@ -136,7 +136,7 @@ export default async function PaginatedHomePage({
       <section className="min-h-screen">
         <Hero />
         <div className="relative border-b border-gray-200 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 place-items-center max-w-7xl mx-auto mb-12 px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 max-w-7xl mx-auto mb-12 px-4 sm:px-6 lg:px-8">
             <LSide />
             <div className="col-span-1 self-start lg:col-span-3 w-full lg:border-l-2 lg:border-gray-300 lg:px-8">
               <PostList posts={posts} />
