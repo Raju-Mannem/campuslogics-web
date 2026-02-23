@@ -108,6 +108,7 @@ export default async function PaginatedHomePage({
         page: currentPage,
         limit: limit,
       },
+	fetchPolicy: "network-only",
     });
     posts = data?.posts.posts || [];
     totalCount = data?.posts.totalCount || 0;
