@@ -36,14 +36,7 @@ export const UPDATE_POST = gql`
 
 export const DELETE_POST = gql`
 mutation DeletePost($id: Int!) {
-  deletePost(id: $id) {
-    sno
-    title
-    imageLink
-    description
-    links
-    date
-  }
+  deletePost(id: $id) 
 }
 `;
 

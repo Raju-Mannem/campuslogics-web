@@ -8,7 +8,7 @@ import LSide from "@/components/LSide";
 import { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 
-export const revalidate = 60;
+export const revalidate = 1;
 
 interface GetPostData {
   posts: {
