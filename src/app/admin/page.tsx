@@ -41,12 +41,8 @@ export default function Admin() {
 
     showLoader();
     try {
-      const { data } = await deletePost({ variables: { id: postId } });
-      if (data?.deletePost) {
-        await refetch();
-      } else {
-         alert('Failed to delete post');
-      }
+      await deletePost({ variables: { id: postId } });
+      await refetch();
     } catch (error) {
       console.error('Failed to delete post:', error);
       alert('Failed to delete post');
