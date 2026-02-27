@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Post } from '@prisma/client';
 import Image from 'next/image';
 
+export const dynamic = "force-dynamic";
+
 interface PostListProps {
   posts: Post[]
 }

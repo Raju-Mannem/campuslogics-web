@@ -8,6 +8,7 @@ import LSide from "@/components/LSide";
 import { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 
+export const dynamic = "force-dynamic";
 // export const revalidate = 0;
 
 interface GetPostData {
