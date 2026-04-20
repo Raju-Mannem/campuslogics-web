@@ -61,7 +61,7 @@ input UpdatePostInput {
 type Query {
   posts(published: Boolean, page: Int, limit: Int): PaginatedPosts!
   searchPosts(published: Boolean, page: Int, limit: Int, searchQuery: String): PaginatedSearchPosts!
-  categoryPosts(published: Boolean, page: Int, limit: Int, category: String): PaginatedSearchPosts!
+  categoryPosts(published: Boolean, page: Int, limit: Int, postType: String): PaginatedSearchPosts!
   categoryTypePosts(published: Boolean, page: Int, limit: Int, categoryType: String): PaginatedSearchPosts!
   post(id: Int, slug: String): Post
   images: [Image!]!
