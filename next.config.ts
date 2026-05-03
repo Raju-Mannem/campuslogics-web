@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
 
   experimental: {
     serverActions: {
-      allowedOrigins: ["campuslogics.org", "https://campuslogics.org", "www.campuslogics.org"],
+      allowedOrigins: ['campuslogics.org', 'https://campuslogics.org', 'www.campuslogics.org'],
     },
   },
 
@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/(.*)',
-        headers: [  
+        headers: [
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
@@ -47,7 +47,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
 };
 

@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import { SearchIcon } from "./Icons";
+import { useState, SubmitEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { SearchIcon } from './Icons';
 
 export default function SearchBar() {
   const router = useRouter();
-  
-  const [query, setQuery] = useState("");
 
-  const handleSearch = (e: FormEvent) => {
+  const [query, setQuery] = useState('');
+
+  const handleSearch = (e: SubmitEvent) => {
     e.preventDefault();
     const trimmedQuery = query.trim();
     if (trimmedQuery) {
@@ -18,7 +18,7 @@ export default function SearchBar() {
   };
 
   return (
-    <form 
+    <form
       onSubmit={handleSearch}
       className="flex items-center border border-brand-500/50 rounded-lg overflow-hidden focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-transparent transition-all"
     >
@@ -29,8 +29,8 @@ export default function SearchBar() {
         onChange={(e) => setQuery(e.target.value)}
         className="w-full px-2 sm:px-4 py-1.5 text-sm focus:outline-none bg-transparent"
       />
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         className="px-2 sm:px-3 py-2 bg-brand-500/10 border-l border-brand-500/50 hover:bg-brand-500/20 transition group"
         aria-label="Submit search"
       >

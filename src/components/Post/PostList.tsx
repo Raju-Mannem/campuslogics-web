@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { Post } from '@prisma/client';
+import { Post } from '@/generated/prisma/client';
 import Image from 'next/image';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 interface PostListProps {
-  posts: Post[]
+  posts: Post[];
 }
 
 export default function PostList({ posts }: PostListProps) {
@@ -25,7 +25,10 @@ export default function PostList({ posts }: PostListProps) {
           key={index}
           className="w-full group bg-white rounded-2xl shadow-sm border-4 border-gray-100 overflow-hidden shadow-xl hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
         >
-          <Link href={`/${post.slug}`} className="block sm:grid sm:gap-2 sm:grid-cols-3 place-items-center">
+          <Link
+            href={`/${post.slug}`}
+            className="block sm:grid sm:gap-2 sm:grid-cols-3 place-items-center"
+          >
             <div className="col-span-1 relative w-full aspect-[16/9] overflow-hidden">
               <Image
                 src={post.imageLink || '/placeholder.jpg'}
@@ -42,7 +45,9 @@ export default function PostList({ posts }: PostListProps) {
               </h2>
               <div className="flex items-center gap-2 border-b border-gray-300 px pb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-900">{post.postType.toLocaleUpperCase()}</span>
+                  <span className="text-sm font-medium text-gray-900">
+                    {post.postType.toLocaleUpperCase()}
+                  </span>
                   {/* <span className="text-sm font-medium text-gray-900">{post.postedBy}</span> */}
                 </div>
                 <time
@@ -52,7 +57,7 @@ export default function PostList({ posts }: PostListProps) {
                   {new Date(Number(post.createdAt)).toLocaleDateString(undefined, {
                     month: 'short',
                     day: 'numeric',
-                    year: 'numeric'
+                    year: 'numeric',
                   })}
                 </time>
               </div>
@@ -74,5 +79,5 @@ export default function PostList({ posts }: PostListProps) {
         </article>
       ))}
     </div>
-  )
+  );
 }

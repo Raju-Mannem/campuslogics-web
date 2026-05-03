@@ -1,7 +1,8 @@
 -- CreateTable
-CREATE TABLE "blog"."Posts" (
+CREATE TABLE "Posts" (
     "id" SERIAL NOT NULL,
     "sno" SERIAL NOT NULL,
+    "postType" TEXT NOT NULL DEFAULT 'job',
     "title" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "imageLink" TEXT NOT NULL,
@@ -18,7 +19,7 @@ CREATE TABLE "blog"."Posts" (
 );
 
 -- CreateTable
-CREATE TABLE "blog"."Images" (
+CREATE TABLE "Images" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "url" TEXT NOT NULL,
@@ -29,4 +30,7 @@ CREATE TABLE "blog"."Images" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Posts_slug_key" ON "blog"."Posts"("slug");
+CREATE UNIQUE INDEX "Posts_slug_key" ON "Posts"("slug");
+
+-- CreateIndex
+CREATE INDEX "Posts_published_createdAt_idx" ON "Posts"("published", "createdAt");

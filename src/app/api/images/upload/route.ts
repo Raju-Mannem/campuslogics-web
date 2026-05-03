@@ -1,27 +1,27 @@
-import { prisma } from "@/lib/prisma/client";
-import { ImageKitService } from "@/services/imagekit-service";
+import { prisma } from '@/lib/prisma/client';
+import { ImageKitService } from '@/services/imagekit-service';
 
 export const runtime = 'nodejs';
 
 export const POST = async (req: Request) => {
-  if (req.method !== "POST") {
-    return new Response(JSON.stringify({ message: "Method not allowed" }), {
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ message: 'Method not allowed' }), {
       status: 405,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
   try {
     const imageKitService = new ImageKitService();
     const formData = await req.formData();
-    const file = formData.get("file") as File;
-    const name = formData.get("name") as string;
+    const file = formData.get('file') as File;
+    const name = formData.get('name') as string;
 
     if (!file || !name) {
-      return new Response(
-        JSON.stringify({ message: "File and name are required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ message: 'File and name are required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const uploadResult = await imageKitService.uploadImage(file, name);
@@ -36,13 +36,13 @@ export const POST = async (req: Request) => {
 
     return new Response(JSON.stringify(image), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error("Image upload error:", error);
-    return new Response(JSON.stringify({ message: "Internal server error" }), {
+    console.error('Image upload error:', error);
+    return new Response(JSON.stringify({ message: 'Internal server error' }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 };

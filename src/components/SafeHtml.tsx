@@ -49,16 +49,12 @@ export default function SafeHtml({ html }: Props) {
             width={Number(width) || 800}
             height={Number(height) || 600}
             style={{ height: 'auto' }}
-            unoptimized={src.startsWith('http')} 
+            unoptimized={src.startsWith('http')}
           />
         );
       }
     },
   };
 
-  return (
-    <div className="prose prose-slate max-w-none w-full">
-      {parse(cleanHtml, options)}
-    </div>
-  );
+  return <div className="prose prose-slate max-w-none w-full">{parse(cleanHtml, options)}</div>;
 }

@@ -1,50 +1,50 @@
-'use client'
+'use client';
 
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { Heading1, Heading2, List, Image as ImageIcon, Text } from 'lucide-react'
-import { SuggestionProps } from '@tiptap/suggestion'
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { Heading1, Heading2, List, Image as ImageIcon, Text } from 'lucide-react';
+import { SuggestionProps } from '@tiptap/suggestion';
 
 export interface CommandItem {
-  title: string
+  title: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  command: (props: { editor: any; range: any }) => void
+  command: (props: { editor: any; range: any }) => void;
 }
 
 export interface CommandListProps extends SuggestionProps<CommandItem> {
-  items: CommandItem[]
+  items: CommandItem[];
 }
 
 export interface CommandListRef {
-  onKeyDown: (props: { event: KeyboardEvent }) => boolean
+  onKeyDown: (props: { event: KeyboardEvent }) => boolean;
 }
 
 export const CommandList = forwardRef<CommandListRef, CommandListProps>((props, ref) => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index: number) => {
-    const item = props.items[index]
+    const item = props.items[index];
     if (item) {
-      props.command(item)
+      props.command(item);
     }
-  }
+  };
 
   useImperativeHandle(ref, () => ({
     onKeyDown: ({ event }) => {
       if (event.key === 'ArrowUp') {
-        setSelectedIndex((selectedIndex + props.items.length - 1) % props.items.length)
-        return true
+        setSelectedIndex((selectedIndex + props.items.length - 1) % props.items.length);
+        return true;
       }
       if (event.key === 'ArrowDown') {
-        setSelectedIndex((selectedIndex + 1) % props.items.length)
-        return true
+        setSelectedIndex((selectedIndex + 1) % props.items.length);
+        return true;
       }
       if (event.key === 'Enter') {
-        selectItem(selectedIndex)
-        return true
+        selectItem(selectedIndex);
+        return true;
       }
-      return false
+      return false;
     },
-  }))
+  }));
 
   return (
     <div className="z-50 h-auto min-w-[200px] overflow-y-auto rounded-md border border-gray-200 bg-white p-1 shadow-md">
@@ -71,7 +71,7 @@ export const CommandList = forwardRef<CommandListRef, CommandListProps>((props, 
         <div className="px-2 py-1.5 text-sm text-gray-500">No results</div>
       )}
     </div>
-  )
-})
+  );
+});
 
-CommandList.displayName = 'CommandList'
+CommandList.displayName = 'CommandList';

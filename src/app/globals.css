@@ -1,27 +1,26 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
-
 
 :root {
   --background: #fafafa;
   --foreground: #0f172a;
-  
+
   /* Primary Brand Colors (Red) */
   --primary: #d92c29;
-  --primary-foreground: #E7ECF1;
+  --primary-foreground: #e7ecf1;
   --primary-hover: #d92c29;
 
   /* Secondary/Accent */
   --secondary: #f1f5f9;
   --secondary-foreground: #0f172a;
-  
+
   /* Surface/Cards */
-  --card: #E7ECF1;
+  --card: #e7ecf1;
   --card-foreground: #0f172a;
-  
+
   /* Borders */
   --border: #e2e8f0;
-  
+
   /* Status */
   --error: #ef4444;
   --success: #22c55e;
@@ -30,20 +29,20 @@
 @theme {
   --font-display: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
-  --color-navyblue-200: #CBE3EF;
-  --color-navyblue-300: #82C2E6;
+  --color-navyblue-200: #cbe3ef;
+  --color-navyblue-300: #82c2e6;
   --color-navyblue-400: #5585BO;
-  --color-navyblue-500: #254E7A;
+  --color-navyblue-500: #254e7a;
   --color-background-50: #fafafa;
-  --color-brand-50: #FDECEC;
-  --color-brand-100: #F9D6D5;
-  --color-brand-200: #F4B5B3;
-  --color-brand-300: #EE908E;
-  --color-brand-400: #E86966;
-  --color-brand-500: #E24C49;
+  --color-brand-50: #fdecec;
+  --color-brand-100: #f9d6d5;
+  --color-brand-200: #f4b5b3;
+  --color-brand-300: #ee908e;
+  --color-brand-400: #e86966;
+  --color-brand-500: #e24c49;
   --color-brand-600: #d92c29;
   --color-brand-700: #d92c29;
-  
+
   --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --shadow-glow: 0 0 15px rgba(79, 70, 229, 0.3);
 }
@@ -71,7 +70,12 @@ body {
 }
 
 /* Typography Enhancements */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-montserrat), sans-serif, system-ui;
   letter-spacing: -0.025em;
   color: #1e293b;
@@ -84,8 +88,14 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -93,10 +103,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @layer base {
-  input[type="search"]::-webkit-search-decoration,
-  input[type="search"]::-webkit-search-cancel-button,
-  input[type="search"]::-webkit-search-results-button,
-  input[type="search"]::-webkit-search-results-decoration {
+  input[type='search']::-webkit-search-decoration,
+  input[type='search']::-webkit-search-cancel-button,
+  input[type='search']::-webkit-search-results-button,
+  input[type='search']::-webkit-search-results-decoration {
     -webkit-appearance: none;
     appearance: none;
   }

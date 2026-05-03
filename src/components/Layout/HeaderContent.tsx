@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, Suspense } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import SearchBar from "./SearchBar";
-import { CloseIcon, MenuIcon } from "./Icons";
+import { useState, Suspense } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import SearchBar from './SearchBar';
+import { CloseIcon, MenuIcon } from './Icons';
 
 interface HeaderContentProps {
   links: { href: string; label: string; icon: React.ReactNode }[];
@@ -39,9 +39,7 @@ export default function HeaderContent({
           </div>
           <div className="basis-1/3 sm:basis-1/4 sm:px-4">
             <Suspense
-              fallback={
-                <div className="h-10 w-full bg-gray-100 animate-pulse rounded-lg" />
-              }
+              fallback={<div className="h-10 w-full bg-gray-100 animate-pulse rounded-lg" />}
             >
               <SearchBar />
             </Suspense>
@@ -53,9 +51,7 @@ export default function HeaderContent({
                 key={link.href}
                 href={link.href}
                 className={`px-3 py-2 truncate md:text-clip font-medium transition-colors ${
-                  pathname === link.href
-                    ? "text-brand-600"
-                    : "text-gray-600 hover:text-brand-600"
+                  pathname === link.href ? 'text-brand-600' : 'text-gray-600 hover:text-brand-600'
                 }`}
               >
                 <span className="flex items-center gap-2 ">
@@ -63,7 +59,7 @@ export default function HeaderContent({
                   {link.label}
                 </span>
                 <div
-                  className={`w-full h-[2px] ${pathname === link.href ? "bg-brand-600" : "bg-transparent"} rounded-full transition duration-300`}
+                  className={`w-full h-[2px] ${pathname === link.href ? 'bg-brand-600' : 'bg-transparent'} rounded-full transition duration-300`}
                 />
               </Link>
             ))}
@@ -103,7 +99,7 @@ export default function HeaderContent({
       {isMenuOpen && (
         <div
           className={`md:hidden bg-white border-t border-gray-100 absolute left-0 top-16 shadow-lg h-screen w-5/6 max-w-sm transform transition-transform duration-300 ease-in-out ${
-            isMenuOpen ? "translate-x-0" : "-translate-x-full"
+            isMenuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           <div className="px-4 py-4 space-y-4">
@@ -128,9 +124,7 @@ export default function HeaderContent({
               >
                 Contact us
               </Link>
-              {isAuthenticated && (
-                <div className="flex justify-center">{logoutButton}</div>
-              )}
+              {isAuthenticated && <div className="flex justify-center">{logoutButton}</div>}
             </div>
           </div>
         </div>

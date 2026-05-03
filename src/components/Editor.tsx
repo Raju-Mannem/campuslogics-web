@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -21,13 +21,12 @@ import TaskItem from '@tiptap/extension-task-item';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Blockquote from '@tiptap/extension-blockquote';
 
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { createLowlight } from 'lowlight'
-import DOMPurify from 'dompurify'
-import Toolbar from './Toolbar'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { createLowlight } from 'lowlight';
+import DOMPurify from 'dompurify';
+import Toolbar from './Toolbar';
 
-
-const Tiptap = ({ content, onChange }: { content: unknown, onChange: (html: unknown) => void }) => {
+const Tiptap = ({ content, onChange }: { content: unknown; onChange: (html: unknown) => void }) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -82,7 +81,7 @@ const Tiptap = ({ content, onChange }: { content: unknown, onChange: (html: unkn
         lowlight: createLowlight(),
       }),
     ],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     content: content as any,
     immediatelyRender: false,
     editorProps: {
@@ -93,20 +92,20 @@ const Tiptap = ({ content, onChange }: { content: unknown, onChange: (html: unkn
 
       // for Word / Google Docs paste
       transformPastedHTML(html) {
-        return DOMPurify.sanitize(html)
+        return DOMPurify.sanitize(html);
       },
     },
     onUpdate: ({ editor }) => {
-      onChange(editor.getJSON())
+      onChange(editor.getJSON());
     },
-  })
+  });
 
   return (
     <div className="flex flex-col gap-2">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
-  )
-}
+  );
+};
 
-export default Tiptap
+export default Tiptap;

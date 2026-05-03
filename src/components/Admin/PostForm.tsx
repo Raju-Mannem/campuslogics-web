@@ -1,24 +1,15 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import { useMutation } from "@apollo/client/react";
-import { Post, Image as PrismaImage, Prisma } from "@prisma/client";
-import { useForm, Controller } from "react-hook-form";
-import ImageUpload from "../Image/ImageUpload";
-import { useLoader } from "@/context/LoaderContext";
-import { useRouter } from "next/navigation";
-import Tiptap from "../Editor";
-import Image from "next/image";
-import { CREATE_POST, UPDATE_POST } from "@/lib/graphql/mutations";
-import { useSession } from "next-auth/react";
-
-interface CreatePostResponse {
-  createPost: Post;
-}
-
-interface UpdatePostResponse {
-  updatePost: Post;
-}
+import { useEffect, useMemo, useState } from 'react';
+import { Post, Image as PrismaImage, Prisma } from '@/generated/prisma/client';
+import { useForm, Controller } from 'react-hook-form';
+import ImageUpload from '../Image/ImageUpload';
+import { useLoader } from '@/context/LoaderContext';
+import { useRouter } from 'next/navigation';
+import Tiptap from '../Editor';
+import Image from 'next/image';
+import { createPost, updatePost } from '@/lib/actions/post.actions';
+import { useSession } from 'next-auth/react';
 
 interface PostFormValues {
   postType: string;
@@ -44,20 +35,20 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
 
   const [selectedImage, setSelectedImage] = useState<PrismaImage | null>(null);
 
-  const [createPost] = useMutation<CreatePostResponse>(CREATE_POST);
-  const [updatePost] = useMutation<UpdatePostResponse>(UPDATE_POST);
-
-  const defaultValues = useMemo<PostFormValues>(() => ({
-    postType: post?.postType ?? "job",
-    title: post?.title ?? "",
-    description: post?.description ?? "",
-    content: post?.content ?? {},
-    tags: post?.tags?.join(", ") ?? "",
-    links: post?.links ? JSON.stringify(post.links, null, 2) : "{}",
-    postedBy: post?.postedBy ?? "",
-    imageLink: post?.imageLink ?? "",
-    published: post?.published ?? false,
-  }), [post]);
+  const defaultValues = useMemo<PostFormValues>(
+    () => ({
+      postType: post?.postType ?? 'job',
+      title: post?.title ?? '',
+      description: post?.description ?? '',
+      content: post?.content ?? {},
+      tags: post?.tags?.join(', ') ?? '',
+      links: post?.links ? JSON.stringify(post.links, null, 2) : '{}',
+      postedBy: post?.postedBy ?? '',
+      imageLink: post?.imageLink ?? '',
+      published: post?.published ?? false,
+    }),
+    [post],
+  );
 
   const {
     register,
@@ -69,25 +60,25 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
     formState: { errors, isSubmitting },
   } = useForm<PostFormValues>({
     defaultValues,
-    mode: "onBlur",
+    mode: 'onBlur',
   });
 
   useEffect(() => {
     if (!session?.user?.name) return;
 
-    const adminName = session.user.name.replace("Admin", "").trim();
-	setValue("postedBy", getValues("postedBy") || adminName);
-	 if (post) {
-    reset({
-      ...defaultValues,
-      postedBy: defaultValues.postedBy || adminName,
-    });
-	}
-  }, []);
+    const adminName = session.user.name.replace('Admin', '').trim();
+    setValue('postedBy', getValues('postedBy') || adminName);
+    if (post) {
+      reset({
+        ...defaultValues,
+        postedBy: defaultValues.postedBy || adminName,
+      });
+    }
+  }, [session, post, defaultValues, setValue, getValues, reset]);
 
   const onSubmit = async (values: PostFormValues) => {
     if (!selectedImage && !post?.imageLink && !values.imageLink) {
-      alert("Please select an image");
+      alert('Please select an image');
       return;
     }
 
@@ -96,7 +87,7 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
     try {
       parsedLinks = JSON.parse(values.links);
     } catch (err) {
-      alert("Invalid JSON in Links field");
+      alert('Invalid JSON in Links field');
       return;
     }
 
@@ -104,10 +95,11 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
       ...values,
       imageLink: selectedImage?.url || values.imageLink,
       tags: values.tags
-        .split(",")
+        .split(',')
         .map((tag) => tag.trim())
         .filter(Boolean),
       links: parsedLinks,
+      content: values.content as any,
     };
 
     showLoader();
@@ -116,75 +108,44 @@ export default function PostForm({ post, onSuccess }: PostFormProps) {
       let result: Post;
 
       if (post) {
-        const { data } = await updatePost({
-          variables: { id: post.id, input },
-        });
-
-        if (!data) throw new Error("No data returned from update");
-        result = data.updatePost;
+        result = await updatePost(post.id, input);
       } else {
-        const { data } = await createPost({
-          variables: { input },
-        });
-
-        if (!data) throw new Error("No data returned from create");
-        result = data.createPost;
+        result = await createPost(input);
       }
 
-      onSuccess ? onSuccess(result) : router.push("/admin");
+      onSuccess ? onSuccess(result) : router.push('/admin');
     } catch (error) {
       console.error(error);
-      alert("Failed to save post");
+      alert('Failed to save post');
     } finally {
       hideLoader();
     }
   };
 
-  const formatPostForShare = (
-    values: PostFormValues,
-    platform: "whatsapp" | "telegram"
-  ) => {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://yoursite.com";
-    const slug = post?.slug ?? "preview-slug";
+  const formatPostForShare = (values: PostFormValues, platform: 'whatsapp' | 'telegram') => {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campuslogics.org';
+    const slug = post?.slug ?? 'preview-slug';
 
     const tags = values.tags
-      .split(",")
+      .split(',')
       .map((t) => t.trim())
       .filter(Boolean)
-      .join(", ");
+      .join(', ');
 
     const date = new Date().toLocaleDateString(undefined, {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
 
-    if (platform === "whatsapp") {
-      return `🔥 ${values.postType.toUpperCase()} UPDATE
-
-*${values.title}*
-
-${values.description}
-
-📅 ${date}
-🏷️ ${tags}
-
-🔗 ${baseUrl}/${slug}`;
+    if (platform === 'whatsapp') {
+      return `🔥 ${values.postType.toUpperCase()} UPDATE\n\n*${values.title}*\n\n${values.description}\n\n📅 ${date}\n🏷️ ${tags}\n\n🔗 ${baseUrl}/${slug}`;
     }
 
-    return `🚀 ${values.postType.toUpperCase()} UPDATE
-
-**${values.title}**
-
-${values.description}
-
-📅 ${date}
-🏷️ ${tags}
-
-🔗 ${baseUrl}/${slug}`;
+    return `🚀 ${values.postType.toUpperCase()} UPDATE\n\n**${values.title}**\n\n${values.description}\n\n📅 ${date}\n🏷️ ${tags}\n\n🔗 ${baseUrl}/${slug}`;
   };
 
-  const handleCopyForPlatform = async (platform: "whatsapp" | "telegram") => {
+  const handleCopyForPlatform = async (platform: 'whatsapp' | 'telegram') => {
     const values = getValues();
 
     const formatted = formatPostForShare(values, platform);
@@ -193,7 +154,7 @@ ${values.description}
       await navigator.clipboard.writeText(formatted);
       alert(`copied for ${platform.toUpperCase()}`);
     } catch (err) {
-      alert("Failed to copy");
+      alert('Failed to copy');
     }
   };
 
@@ -203,29 +164,21 @@ ${values.description}
       className="space-y-6 max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         {/* Post Type */}
         <div className="col-span-full">
           <label className="block text-sm font-medium">Post Type</label>
           <input
-            {...register("postType", { required: "Post type is required" })}
+            {...register('postType', { required: 'Post type is required' })}
             className="input"
           />
-          {errors.postType && (
-            <p className="text-red-500 text-sm">{errors.postType.message}</p>
-          )}
+          {errors.postType && <p className="text-red-500 text-sm">{errors.postType.message}</p>}
         </div>
 
         {/* Title */}
         <div className="col-span-full">
           <label className="block text-sm font-medium">Title</label>
-          <input
-            {...register("title", { required: "Title is required" })}
-            className="input"
-          />
-          {errors.title && (
-            <p className="text-red-500 text-sm">{errors.title.message}</p>
-          )}
+          <input {...register('title', { required: 'Title is required' })} className="input" />
+          {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
         </div>
 
         {/* Description */}
@@ -233,15 +186,13 @@ ${values.description}
           <label className="block text-sm font-medium">Description</label>
           <textarea
             rows={3}
-            {...register("description", {
-              required: "Description is required",
+            {...register('description', {
+              required: 'Description is required',
             })}
             className="input"
           />
           {errors.description && (
-            <p className="text-red-500 text-sm">
-              {errors.description.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.description.message}</p>
           )}
         </div>
 
@@ -255,9 +206,7 @@ ${values.description}
             render={({ field }) => (
               <Tiptap
                 content={field.value}
-                onChange={(json) =>
-                  field.onChange(json as Prisma.InputJsonValue)
-                }
+                onChange={(json) => field.onChange(json as Prisma.InputJsonValue)}
               />
             )}
           />
@@ -265,21 +214,16 @@ ${values.description}
 
         {/* Tags */}
         <div>
-          <label className="block text-sm font-medium">
-            Tags (comma separated)
-          </label>
-          <input
-            {...register("tags")}
-            className="input"
-          />
+          <label className="block text-sm font-medium">Tags (comma separated)</label>
+          <input {...register('tags')} className="input" />
         </div>
 
         {/* Posted By */}
         <div>
           <label className="block text-sm font-medium">Posted By</label>
           <input
-            {...register("postedBy", {
-              required: "Posted By is required",
+            {...register('postedBy', {
+              required: 'Posted By is required',
             })}
             className="input"
           />
@@ -290,28 +234,24 @@ ${values.description}
           <label className="block text-sm font-medium">Links (JSON)</label>
           <textarea
             rows={4}
-            {...register("links", {
+            {...register('links', {
               validate: (value) => {
                 try {
                   JSON.parse(value);
                   return true;
                 } catch {
-                  return "Invalid JSON format";
+                  return 'Invalid JSON format';
                 }
               },
             })}
             className="input font-mono text-sm"
           />
-          {errors.links && (
-            <p className="text-red-500 text-sm">{errors.links.message}</p>
-          )}
+          {errors.links && <p className="text-red-500 text-sm">{errors.links.message}</p>}
         </div>
 
         {/* Featured Image */}
         <div className="col-span-full">
-          <label className="block text-sm font-medium mb-2">
-            Featured Image
-          </label>
+          <label className="block text-sm font-medium mb-2">Featured Image</label>
 
           <Controller
             control={control}
@@ -332,7 +272,7 @@ ${values.description}
                   selectedImage={selectedImage || undefined}
                   onImageSelect={(img) => {
                     setSelectedImage(img);
-                    if (img?.url) setValue("imageLink", img.url);
+                    if (img?.url) setValue('imageLink', img.url);
                   }}
                 />
               </>
@@ -342,11 +282,7 @@ ${values.description}
 
         {/* Published */}
         <div className="flex items-center col-span-full">
-          <input
-            type="checkbox"
-            {...register("published")}
-            className="mr-2"
-          />
+          <input type="checkbox" {...register('published')} className="mr-2" />
           <label>Published</label>
         </div>
       </div>
@@ -355,7 +291,7 @@ ${values.description}
         <div className="flex gap-3">
           <button
             type="button"
-            onClick={() => handleCopyForPlatform("whatsapp")}
+            onClick={() => handleCopyForPlatform('whatsapp')}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
           >
             Copy for WhatsApp
@@ -363,7 +299,7 @@ ${values.description}
 
           <button
             type="button"
-            onClick={() => handleCopyForPlatform("telegram")}
+            onClick={() => handleCopyForPlatform('telegram')}
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
           >
             Copy for Telegram
@@ -374,7 +310,7 @@ ${values.description}
           disabled={isSubmitting}
           className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
         >
-          {post ? "Update Post" : "Create Post"}
+          {post ? 'Update Post' : 'Create Post'}
         </button>
       </div>
     </form>

@@ -1,13 +1,13 @@
-import { imagekit } from "@/lib/imagekit";
+import { imagekit } from '@/lib/imagekit';
 // import sharp from "sharp";
 // import fs from "fs";
 // import path from "path";
 
 export class ImageKitService {
-    async uploadImage(file: File, fileName: string): Promise<{ url: string; publicId: string }> {
-        try {
-            // const buffer = Buffer.from(await file.arrayBuffer());
-            /*const baseImage = sharp(buffer);
+  async uploadImage(file: File, fileName: string): Promise<{ url: string; publicId: string }> {
+    try {
+      // const buffer = Buffer.from(await file.arrayBuffer());
+      /*const baseImage = sharp(buffer);
             const metadata = await baseImage.metadata();
 
             const logoBuffer = await sharp(logoPath)
@@ -24,27 +24,27 @@ export class ImageKitService {
                 ])
                 .toBuffer();
 			*/
-            const response = await imagekit().files.upload({
-                file: file,
-                fileName: fileName,
-            });
+      const response = await imagekit().files.upload({
+        file: file,
+        fileName: fileName,
+      });
 
-            return {
-                url: response.url!,
-                publicId: response.fileId!,
-            };
-        } catch (error: unknown) {
-            console.error("ImageKit upload failed:", error);
-            throw new Error("Failed to upload image to ImageKit");
-        }
+      return {
+        url: response.url!,
+        publicId: response.fileId!,
+      };
+    } catch (error: unknown) {
+      console.error('ImageKit upload failed:', error);
+      throw new Error('Failed to upload image to ImageKit');
     }
+  }
 
-    async deleteImage(publicId: string): Promise<void> {
-        try {
-            await imagekit().files.delete(publicId);
-        } catch (error) {
-            console.error("ImageKit delete failed:", error);
-            throw new Error("Failed to delete image from ImageKit");
-        }
+  async deleteImage(publicId: string): Promise<void> {
+    try {
+      await imagekit().files.delete(publicId);
+    } catch (error) {
+      console.error('ImageKit delete failed:', error);
+      throw new Error('Failed to delete image from ImageKit');
     }
+  }
 }

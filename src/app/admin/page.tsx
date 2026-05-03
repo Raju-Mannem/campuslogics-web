@@ -1,55 +1,24 @@
-"use client"
-import { Post } from '@prisma/client';
-import { useQuery, useMutation } from '@apollo/client/react';
-import { useLoader } from '@/context/LoaderContext';
+import { getPosts } from '@/services/post.services';
 import PaginationControls from '@/components/PaginationControls';
-import { GET_ADMIN_POSTS } from '@/lib/graphql/queries';
-import { DELETE_POST } from '@/lib/graphql/mutations';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import DeletePostButton from '@/components/Admin/DeletePostButton';
 
-
-interface GetPostsData {
-  posts: {
-    posts: Post[];
-    totalCount: number;
-  };
-}
-
-export default function Admin() {
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
+export default async function Admin({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = await searchParams;
+  const currentPage = Number(resolvedParams.page) || 1;
   const limit = 10;
 
-  const { data, refetch } = useQuery<GetPostsData>(GET_ADMIN_POSTS, {
-    variables: { 
-      page: currentPage, 
-      limit: limit 
-    },
-    fetchPolicy: 'network-only'
-  })
-  const [deletePost] = useMutation(DELETE_POST)
-  const { showLoader, hideLoader } = useLoader();
+  const { posts, totalCount } = await getPosts({
+    page: currentPage,
+    limit: limit,
+  });
 
-  const posts = data?.posts.posts || [];
-  const totalCount = data?.posts.totalCount || 0;
   const totalPages = Math.ceil(totalCount / limit);
-
-  const handleDelete = async (postId: number) => {
-    if (!confirm('Are you sure you want to delete this post?')) return;
-
-    showLoader();
-    try {
-      await deletePost({ variables: { id: postId } });
-      await refetch();
-    } catch (error) {
-      console.error('Failed to delete post:', error);
-      alert('Failed to delete post');
-    } finally {
-      hideLoader();
-    }
-  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -65,7 +34,7 @@ export default function Admin() {
 
       <div className="bg-white shadow-sm border border-gray-100 sm:rounded-2xl overflow-hidden">
         <ul className="divide-y divide-gray-100">
-          {posts.map((post: Post) => (
+          {posts.map((post) => (
             <li key={post.id} className="hover:bg-gray-50 transition-colors">
               <div className="px-6 py-6 flex items-center justify-between">
                 <div className="flex items-center">
@@ -74,6 +43,7 @@ export default function Admin() {
                       src={post.imageLink || '/placeholder.jpg'}
                       alt={post.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
                     />
                   </div>
@@ -86,10 +56,11 @@ export default function Admin() {
                     </p>
                     <div className="flex items-center mt-2 gap-3">
                       <span
-                        className={`px-2.5 py-0.5 text-xs font-semibold rounded-full ${post.published
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-yellow-100 text-yellow-700'
-                          }`}
+                        className={`px-2.5 py-0.5 text-xs font-semibold rounded-full ${
+                          post.published
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                        }`}
                       >
                         {post.published ? 'Published' : 'Draft'}
                       </span>
@@ -112,27 +83,24 @@ export default function Admin() {
                   >
                     Edit
                   </Link>
-                  <button
-                    onClick={() => handleDelete(post.id)}
-                    className="px-4 py-2 bg-white border border-gray-200 text-red-600 text-sm font-medium rounded-lg hover:bg-red-50 hover:border-red-200 transition"
-                  >
-                    Delete
-                  </button>
+
+                  {/* Extracted Interactive Client Component */}
+                  <DeletePostButton postId={post.id} />
                 </div>
               </div>
-              </li>
+            </li>
           ))}
         </ul>
         {totalPages > 1 && (
           <div className="px-6 py-6 border-t border-gray-100">
-            <PaginationControls 
-              totalPages={totalPages} 
-              currentPage={currentPage} 
-              pathJoin='admin/'
+            <PaginationControls
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pathJoin="admin/"
             />
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

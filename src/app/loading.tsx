@@ -1,13 +1,13 @@
 import PostSkeleton from '@/components/PostSkeleton';
 
 export default function Loading() {
-    return (
-       <section className="min-h-screen">
-      <div className='z-10 flex items-center justify-center gap-4 top-10 w-full h-64 px-24 bg-brand-600/10 rounded-[0px_0px_300px]'>
-        <div className='flex-1/4'>
+  return (
+    <section className="min-h-screen">
+      <div className="z-10 flex items-center justify-center gap-4 top-10 w-full h-64 px-24 bg-brand-600/10 rounded-[0px_0px_300px]">
+        <div className="flex-1/4">
           <div className="h-10 bg-brand-600/10 rounded-md w-32 animate-pulse" />
         </div>
-        <div className='flex-3/4 flex gap-8 items-center justify-center flex-wrap'>
+        <div className="flex-3/4 flex gap-8 items-center justify-center flex-wrap">
           {[...Array(8)].map((_, i) => (
             <div key={i} className="w-24 h-9 bg-brand-600/10 rounded-lg animate-pulse" />
           ))}
@@ -25,6 +25,6 @@ export default function Loading() {
           </div>
         </div>
       </div>
-        </section>
-    );
+    </section>
+  );
 }

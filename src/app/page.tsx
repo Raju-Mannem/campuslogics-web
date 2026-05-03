@@ -1,22 +1,13 @@
-import { GET_POSTS } from "@/lib/graphql/queries";
-import { apolloClient } from "@/lib/apollo-client";
-import PostList from "@/components/Post/PostList";
-import PaginationControls from "@/components/PaginationControls";
-import { Post } from "@prisma/client";
-import Hero from "@/components/Hero";
-import LSide from "@/components/LSide";
-import { Metadata } from "next";
-import JsonLd from "@/components/JsonLd";
+import { getPosts } from '@/services/post.services';
+import PostList from '@/components/Post/PostList';
+import PaginationControls from '@/components/PaginationControls';
+import { Post as PostClientType } from '@/generated/prisma/client';
+import Hero from '@/components/Hero';
+import LSide from '@/components/LSide';
+import { Metadata } from 'next';
+import JsonLd from '@/components/JsonLd';
 
-export const dynamic = "force-dynamic";
-// export const revalidate = 0;
-
-interface GetPostData {
-  posts: {
-    posts: Post[];
-    totalCount: number;
-  };
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
@@ -24,9 +15,9 @@ export async function generateMetadata({
   params: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { page } = await params;
-  const currentPage = parseInt(page || "1") || 1;
+  const currentPage = parseInt(page || '1') || 1;
 
-  const baseUrl = "https://campuslogics.org";
+  const baseUrl = 'https://campuslogics.org';
   const isFirstPage = currentPage === 1;
 
   const url = isFirstPage ? baseUrl : `${baseUrl}/page/${currentPage}`;
@@ -34,18 +25,18 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(baseUrl),
     title: isFirstPage
-      ? "CampusLogics – Education, Exams & Career Updates"
+      ? 'CampusLogics – Education, Exams & Career Updates'
       : `Page ${currentPage} | CampusLogics`,
     description:
-      "CampusLogics provides latest education news, exam updates, results, admissions and career guidance.",
+      'CampusLogics provides latest education news, exam updates, results, admissions and career guidance.',
     alternates: {
       canonical: url,
     },
     openGraph: {
-      type: "website",
+      type: 'website',
       url,
-      title: "CampusLogics",
-      description: "Latest education news, exams, results and career updates.",
+      title: 'CampusLogics',
+      description: 'Latest education news, exams, results and career updates.',
       images: [
         {
           url: `${baseUrl}/og-home.jpg`,
@@ -55,9 +46,9 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: "summary_large_image",
-      title: "CampusLogics",
-      description: "Latest education news, exams, results and career updates.",
+      card: 'summary_large_image',
+      title: 'CampusLogics',
+      description: 'Latest education news, exams, results and career updates.',
       images: [`${baseUrl}/og-home.jpg`],
     },
     robots: {
@@ -67,24 +58,24 @@ export async function generateMetadata({
   };
 }
 
-const baseUrl = "https://campuslogics.org";
+const baseUrl = 'https://campuslogics.org';
 
 const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "CampusLogics",
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'CampusLogics',
   url: baseUrl,
   potentialAction: {
-    "@type": "SearchAction",
+    '@type': 'SearchAction',
     target: `${baseUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
+    'query-input': 'required name=search_term_string',
   },
 };
 
 const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "CampusLogics",
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'CampusLogics',
   url: baseUrl,
   logo: `${baseUrl}/logo.png`,
 };
@@ -95,35 +86,32 @@ export default async function PaginatedHomePage({
   params: Promise<{ page?: string }>;
 }) {
   const { page } = await params;
-  const currentPage = parseInt(page || "1") || 1;
+  const currentPage = parseInt(page || '1') || 1;
   const limit = 10;
 
-  let posts: Post[] = [];
+  let posts: PostClientType[] = [];
   let totalCount = 0;
 
   try {
-    const { data } = await apolloClient.query<GetPostData>({
-      query: GET_POSTS,
-      variables: {
-        published: true,
-        page: currentPage,
-        limit: limit,
-      },
-	fetchPolicy: "network-only",
+    const result = await getPosts({
+      published: true,
+      page: currentPage,
+      limit: limit,
     });
-    posts = data?.posts.posts || [];
-    totalCount = data?.posts.totalCount || 0;
+
+    posts = result.posts as unknown as PostClientType[];
+    totalCount = result.totalCount;
   } catch (error) {
-    console.error("Failed to fetch posts:", error);
+    console.error('Failed to fetch posts:', error);
   }
 
   const totalPages = Math.ceil(totalCount / limit);
 
   const itemListJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
     itemListElement: posts.map((post, index) => ({
-      "@type": "ListItem",
+      '@type': 'ListItem',
       position: (currentPage - 1) * limit + index + 1,
       url: `${baseUrl}/${post.slug}`,
       name: post.title,

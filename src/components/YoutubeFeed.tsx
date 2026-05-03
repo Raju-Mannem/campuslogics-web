@@ -41,7 +41,7 @@ async function getLatestVideos(): Promise<YouTubeVideo[]> {
   const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_ITEMS}&type=video`;
 
   const res = await fetch(url, { next: { revalidate: 3600 * 24 } });
-  
+
   if (!res.ok) {
     console.error('YouTube API Error:', res.statusText);
     return [];
@@ -58,18 +58,17 @@ export default async function YouTubeFeed() {
     <div className="min-h-screen border-x border-gray-200 shadow-lg px-4 py-8">
       <h3 className="text-xl font-bold mb-4">Latest from YouTube</h3>
       <div className="flex flex-col justify-center items-center gap-8">
-        
         {videos.map((video) => (
-          <Link 
-            key={video.id.videoId} 
+          <Link
+            key={video.id.videoId}
             href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
-            target="_blank" 
+            target="_blank"
             rel="noopener noreferrer"
             className="group bg-gray-100 p-4 rounded-lg shadow-lg w-full max-w-md"
           >
             <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-100">
-              <Image 
-                src={video.snippet.thumbnails.medium.url} 
+              <Image
+                src={video.snippet.thumbnails.medium.url}
                 alt={video.snippet.title}
                 fill
                 className="object-cover transition-transform group-hover:scale-105"
@@ -79,13 +78,13 @@ export default async function YouTubeFeed() {
             <p className="mt-2 text-sm font-medium line-clamp-2 group-hover:text-blue-600">
               {video.snippet.title}
             </p>
-            <p className="w-full bg-black/80 my-2 py-2 rounded-full text-white text-sm text-center">Watch Now</p>
+            <p className="w-full bg-black/80 my-2 py-2 rounded-full text-white text-sm text-center">
+              Watch Now
+            </p>
           </Link>
         ))}
 
-        {videos.length === 0 && (
-          <p className="text-gray-500 italic">No videos found.</p>
-        )}
+        {videos.length === 0 && <p className="text-gray-500 italic">No videos found.</p>}
       </div>
     </div>
   );

@@ -3,7 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export default function PaginationControls({ totalPages, currentPage, pathJoin }: { totalPages: number, currentPage: number, pathJoin: string }) {
+export default function PaginationControls({
+  totalPages,
+  currentPage,
+  pathJoin,
+}: {
+  totalPages: number;
+  currentPage: number;
+  pathJoin: string;
+}) {
   const pathname = usePathname();
 
   const createPageURL = (pageNumber: number | string) => {

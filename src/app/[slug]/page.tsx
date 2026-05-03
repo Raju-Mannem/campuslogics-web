@@ -1,6 +1,4 @@
-import { gql } from '@apollo/client';
-import { apolloClient } from '@/lib/apollo-client';
-import { Post } from '@prisma/client';
+import { getPost } from '@/services/post.services';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -10,29 +8,19 @@ import { generateHTML } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 import SafeHtml from '@/components/SafeHtml';
 import JsonLd from '@/components/JsonLd';
-import { GET_POST_BY_SLUG } from '@/lib/graphql/queries';
 import ShareButtons from '@/components/ShareButtons';
 
 export const revalidate = 60;
 
-interface GetPostData {
-  post: Post | null;
-}
-
-async function getPost(slug: string) {
-  const { data } = await apolloClient.query<GetPostData>({
-    query: GET_POST_BY_SLUG,
-    variables: { slug },
-    fetchPolicy: 'no-cache',
-  });
-  return data?.post ?? null;
-}
-
 // Metadata for SEO
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
-  const post = await getPost((await params).slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const post = await getPost({ slug }).catch(() => null);
 
   if (!post) {
     return { title: 'Post Not Found' };
@@ -67,18 +55,19 @@ export async function generateMetadata(
   };
 }
 
-export default async function PostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const post = await getPost((await params).slug);
+export default async function PublicPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
 
-  if (!post) notFound();
+  const post = await getPost({ slug }).catch(() => null);
 
+  if (!post || !post.published) {
+    // Optionally guard so drafts don't leak to public
+    notFound();
+  }
+
+  // Parsing Prisma's Json object to TipTap's requirements safely
   const htmlContent =
-    typeof post.content === 'object'
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    typeof post.content === 'object' && post.content !== null
       ? generateHTML(post.content as any, [StarterKit])
       : '';
 
@@ -106,21 +95,32 @@ export default async function PostPage({
     },
   };
 
+  const linksObj = post.links as Record<string, string> | null;
+
   return (
     <>
       <JsonLd data={jsonLd} />
-      <section className="min-h-screen">
-        <article className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl mx-auto">
-          <div className="col-span-1 lg:col-span-3 bg-white px-4 sm:px-8 py-8 sm:py-12 lg:border-x lg:border-gray-200">
-
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 break-words">
+      <section className="min-h-screen bg-gray-50">
+        <article className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl mx-auto py-8">
+          {/* Main Content Column */}
+          <div className="col-span-1 lg:col-span-3 bg-white px-4 sm:px-8 py-8 sm:py-12 rounded-2xl shadow-sm border border-gray-100">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 break-words text-gray-900 leading-tight">
               {post.title}
             </h1>
 
-            <div className="flex flex-wrap gap-3 mb-2">
-              <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">{new Date(Number(post.createdAt)).toLocaleDateString()}</span>
-              {post.tags.map(tag => (
-                <span key={tag} className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
+            <div className="flex flex-wrap gap-3 mb-4 items-center">
+              <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-brand-50 text-brand-700 border border-brand-100">
+                {new Date(Number(post.createdAt)).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
+              {post.tags.map((tag: string, index: number) => (
+                <span
+                  key={index}
+                  className="px-3 py-1.5 rounded-full text-sm bg-gray-100 text-gray-700 border border-gray-200"
+                >
                   {tag}
                 </span>
               ))}
@@ -134,44 +134,63 @@ export default async function PostPage({
               />
             </div>
 
-            <div className="relative w-full aspect-video lg:aspect-square max-h-[500px] mb-8 mx-auto">
+            <div className="relative w-full aspect-video lg:aspect-square max-h-[500px] mb-8 mx-auto bg-gray-50 rounded-xl overflow-hidden border border-gray-100">
               <Image
                 src={post.imageLink || '/placeholder.jpg'}
                 alt={post.title}
                 fill
-                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-contain"
                 priority
               />
             </div>
 
-            <p className="text-lg my-8 text-gray-700 border-l-4 border-brand-500 pl-4">
+            <p className="text-lg my-8 text-gray-700 border-l-4 border-brand-500 pl-5 py-2 bg-gray-50/50 italic rounded-r-lg">
               {post.description}
             </p>
 
-            <div className="w-full prose prose-lg max-w-none prose-img:rounded-xl prose-a:text-brand-600">
+            <div className="w-full prose prose-lg max-w-none prose-img:rounded-xl prose-a:text-brand-600 hover:prose-a:text-brand-700">
               <SafeHtml html={htmlContent} />
             </div>
 
-            {post.links && (
-              <div className="mt-8 p-6 bg-gray-50 rounded-xl space-y-2">
-                <h3 className="font-semibold text-lg mb-4">Important Links</h3>
-                {Object.entries(post.links).map(([key, value]) => (
-                  <div key={key} className='flex gap-2 items-center'>
-                    <span className='font-medium'>{key}:</span>
+            {linksObj && Object.keys(linksObj).length > 0 && (
+              <div className="mt-10 p-6 bg-brand-50/50 rounded-xl space-y-3 border border-brand-100">
+                <h3 className="font-semibold text-xl text-gray-900 mb-4 flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5 text-brand-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                    ></path>
+                  </svg>
+                  Important Links
+                </h3>
+                {Object.entries(linksObj).map(([key, value]) => (
+                  <div key={key} className="flex gap-2 items-center text-gray-700">
+                    <span className="font-medium min-w-[120px]">{key}:</span>
                     <Link
                       href={value}
                       target="_blank"
-                      className="text-brand-600 hover:text-brand-700 underline break-all"
+                      className="text-brand-600 hover:text-brand-800 font-medium underline break-all transition-colors"
                     >
-                      Click here
+                      Click here to visit →
                     </Link>
                   </div>
                 ))}
               </div>
             )}
           </div>
-          <div className='bg-white col-span-1'>
-            <YouTubeFeed />
+
+          <div className="col-span-1 space-y-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden sticky top-6">
+              <YouTubeFeed />
+            </div>
           </div>
         </article>
       </section>

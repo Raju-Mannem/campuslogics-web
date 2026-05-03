@@ -1,50 +1,47 @@
-import { apolloClient } from '@/lib/apollo-client';
-import { Post } from '@prisma/client';
+import { getPost } from '@/services/post.services';
 import { notFound } from 'next/navigation';
 import PostForm from '@/components/Admin/PostForm';
-import { GET_POST_BY_SLUG } from '@/lib/graphql/queries';
-import { SessionProvider } from "next-auth/react";
-
-interface GetPostData {
-    post: Post | null;
-}
+import { SessionProvider } from 'next-auth/react';
 
 type Props = {
-    params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 export default async function EditPostPage({ params }: Props) {
-    const { slug } = await params;
+  const { slug } = await params;
 
-    if (!slug) {
-        notFound();
-    }
+  if (!slug) {
+    notFound();
+  }
 
-    try {
-        const { data } = await apolloClient.query<GetPostData>({
-            query: GET_POST_BY_SLUG,
-            variables: { slug: slug },
-            fetchPolicy: 'no-cache',
-        });
+  let post = null;
+  let hasError = false;
 
-        const post = data?.post;
+  try {
+    post = await getPost({ slug });
+  } catch (err) {
+    console.error('Error fetching post:', err);
+    hasError = true;
+  }
 
-        if (!post) {
-            notFound();
-        }
+  if (hasError) {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center text-red-600">
+        Error loading post. Ensure the database connection is active.
+      </div>
+    );
+  }
 
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold mb-8 text-center">Edit Post</h1>
-                <SessionProvider><PostForm post={post} /></SessionProvider>
-            </div>
-        );
-    } catch (error) {
-        console.error('Error fetching post:', error);
-        return (
-            <div className="container mx-auto px-4 py-8 text-center text-red-600">
-                Error loading post.
-            </div>
-        );
-    }
+  if (!post) {
+    notFound();
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8 text-center">Edit Post</h1>
+      <SessionProvider>
+        <PostForm post={post} />
+      </SessionProvider>
+    </div>
+  );
 }
