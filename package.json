@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
+    "build": "next build",
     "start": "next start",
-    "vercel-build": "prisma generate && next build",
+    "vercel-build": "next build",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
