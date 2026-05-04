@@ -11,7 +11,7 @@ interface User {
 }
 
 class InvalidLoginError extends CredentialsSignin {
-  code = 'Invalid identifier or password';
+  code = 'Invalid username or password';
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
